@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		BF8DD8F32CEF0FC300E39B6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF8DD8D92CEF0FC100E39B6E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF8DD8E02CEF0FC100E39B6E;
+			remoteInfo = "HDR Gain Map Convert";
+		};
+		BF8DD8FD2CEF0FC300E39B6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF8DD8D92CEF0FC100E39B6E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF8DD8E02CEF0FC100E39B6E;
+			remoteInfo = "HDR Gain Map Convert";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BF8DD8E12CEF0FC100E39B6E /* HDR Gain Map Convert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HDR Gain Map Convert.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF8DD8F22CEF0FC300E39B6E /* HDR Gain Map ConvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HDR Gain Map ConvertTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF8DD8FC2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HDR Gain Map ConvertUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BF8DD8E32CEF0FC100E39B6E /* HDR Gain Map Convert */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HDR Gain Map Convert";
+			sourceTree = "<group>";
+		};
+		BF8DD8F52CEF0FC300E39B6E /* HDR Gain Map ConvertTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HDR Gain Map ConvertTests";
+			sourceTree = "<group>";
+		};
+		BF8DD8FF2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HDR Gain Map ConvertUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BF8DD8DE2CEF0FC100E39B6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8EF2CEF0FC300E39B6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8F92CEF0FC300E39B6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BF8DD8D82CEF0FC100E39B6E = {
+			isa = PBXGroup;
+			children = (
+				BF8DD8E32CEF0FC100E39B6E /* HDR Gain Map Convert */,
+				BF8DD8F52CEF0FC300E39B6E /* HDR Gain Map ConvertTests */,
+				BF8DD8FF2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests */,
+				BF8DD8E22CEF0FC100E39B6E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BF8DD8E22CEF0FC100E39B6E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BF8DD8E12CEF0FC100E39B6E /* HDR Gain Map Convert.app */,
+				BF8DD8F22CEF0FC300E39B6E /* HDR Gain Map ConvertTests.xctest */,
+				BF8DD8FC2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BF8DD8E02CEF0FC100E39B6E /* HDR Gain Map Convert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF8DD9062CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map Convert" */;
+			buildPhases = (
+				BF8DD8DD2CEF0FC100E39B6E /* Sources */,
+				BF8DD8DE2CEF0FC100E39B6E /* Frameworks */,
+				BF8DD8DF2CEF0FC100E39B6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BF8DD8E32CEF0FC100E39B6E /* HDR Gain Map Convert */,
+			);
+			name = "HDR Gain Map Convert";
+			packageProductDependencies = (
+			);
+			productName = "HDR Gain Map Convert";
+			productReference = BF8DD8E12CEF0FC100E39B6E /* HDR Gain Map Convert.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BF8DD8F12CEF0FC300E39B6E /* HDR Gain Map ConvertTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF8DD9092CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map ConvertTests" */;
+			buildPhases = (
+				BF8DD8EE2CEF0FC300E39B6E /* Sources */,
+				BF8DD8EF2CEF0FC300E39B6E /* Frameworks */,
+				BF8DD8F02CEF0FC300E39B6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF8DD8F42CEF0FC300E39B6E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BF8DD8F52CEF0FC300E39B6E /* HDR Gain Map ConvertTests */,
+			);
+			name = "HDR Gain Map ConvertTests";
+			packageProductDependencies = (
+			);
+			productName = "HDR Gain Map ConvertTests";
+			productReference = BF8DD8F22CEF0FC300E39B6E /* HDR Gain Map ConvertTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BF8DD8FB2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF8DD90C2CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map ConvertUITests" */;
+			buildPhases = (
+				BF8DD8F82CEF0FC300E39B6E /* Sources */,
+				BF8DD8F92CEF0FC300E39B6E /* Frameworks */,
+				BF8DD8FA2CEF0FC300E39B6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF8DD8FE2CEF0FC300E39B6E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BF8DD8FF2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests */,
+			);
+			name = "HDR Gain Map ConvertUITests";
+			packageProductDependencies = (
+			);
+			productName = "HDR Gain Map ConvertUITests";
+			productReference = BF8DD8FC2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BF8DD8D92CEF0FC100E39B6E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					BF8DD8E02CEF0FC100E39B6E = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					BF8DD8F12CEF0FC300E39B6E = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = BF8DD8E02CEF0FC100E39B6E;
+					};
+					BF8DD8FB2CEF0FC300E39B6E = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = BF8DD8E02CEF0FC100E39B6E;
+					};
+				};
+			};
+			buildConfigurationList = BF8DD8DC2CEF0FC100E39B6E /* Build configuration list for PBXProject "HDR Gain Map Convert" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BF8DD8D82CEF0FC100E39B6E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BF8DD8E22CEF0FC100E39B6E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BF8DD8E02CEF0FC100E39B6E /* HDR Gain Map Convert */,
+				BF8DD8F12CEF0FC300E39B6E /* HDR Gain Map ConvertTests */,
+				BF8DD8FB2CEF0FC300E39B6E /* HDR Gain Map ConvertUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BF8DD8DF2CEF0FC100E39B6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8F02CEF0FC300E39B6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8FA2CEF0FC300E39B6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BF8DD8DD2CEF0FC100E39B6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8EE2CEF0FC300E39B6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF8DD8F82CEF0FC300E39B6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BF8DD8F42CEF0FC300E39B6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF8DD8E02CEF0FC100E39B6E /* HDR Gain Map Convert */;
+			targetProxy = BF8DD8F32CEF0FC300E39B6E /* PBXContainerItemProxy */;
+		};
+		BF8DD8FE2CEF0FC300E39B6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF8DD8E02CEF0FC100E39B6E /* HDR Gain Map Convert */;
+			targetProxy = BF8DD8FD2CEF0FC300E39B6E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BF8DD9042CEF0FC300E39B6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BF8DD9052CEF0FC300E39B6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		BF8DD9072CEF0FC300E39B6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HDR Gain Map Convert/HDR_Gain_Map_Convert.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HDR Gain Map Convert/Preview Content\"";
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-Convert";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BF8DD9082CEF0FC300E39B6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HDR Gain Map Convert/HDR_Gain_Map_Convert.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"HDR Gain Map Convert/Preview Content\"";
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-Convert";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BF8DD90A2CEF0FC300E39B6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-ConvertTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HDR Gain Map Convert.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HDR Gain Map Convert";
+			};
+			name = Debug;
+		};
+		BF8DD90B2CEF0FC300E39B6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-ConvertTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HDR Gain Map Convert.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HDR Gain Map Convert";
+			};
+			name = Release;
+		};
+		BF8DD90D2CEF0FC300E39B6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-ConvertUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "HDR Gain Map Convert";
+			};
+			name = Debug;
+		};
+		BF8DD90E2CEF0FC300E39B6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H65Q9JS5ZG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.vincenttsang.HDR-Gain-Map-ConvertUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "HDR Gain Map Convert";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BF8DD8DC2CEF0FC100E39B6E /* Build configuration list for PBXProject "HDR Gain Map Convert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8DD9042CEF0FC300E39B6E /* Debug */,
+				BF8DD9052CEF0FC300E39B6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF8DD9062CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map Convert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8DD9072CEF0FC300E39B6E /* Debug */,
+				BF8DD9082CEF0FC300E39B6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF8DD9092CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map ConvertTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8DD90A2CEF0FC300E39B6E /* Debug */,
+				BF8DD90B2CEF0FC300E39B6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF8DD90C2CEF0FC300E39B6E /* Build configuration list for PBXNativeTarget "HDR Gain Map ConvertUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF8DD90D2CEF0FC300E39B6E /* Debug */,
+				BF8DD90E2CEF0FC300E39B6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BF8DD8D92CEF0FC100E39B6E /* Project object */;
+}
