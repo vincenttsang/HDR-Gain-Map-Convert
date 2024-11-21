@@ -75,27 +75,35 @@ class Converter {
         var sdr_color_space = CGColorSpace.displayP3
         var hdr_color_space = CGColorSpace.displayP3_PQ
         var hlg_color_space = CGColorSpace.displayP3_HLG
-
-        let image_color_space = hdr_image?.colorSpace?.name
-        if (image_color_space! as NSString).contains("709") {
-            sdr_color_space = CGColorSpace.itur_709
-            hdr_color_space = CGColorSpace.itur_709_PQ
-            hlg_color_space = CGColorSpace.itur_709_HLG
-        }
-        if (image_color_space! as NSString).contains("sRGB") {
-            sdr_color_space = CGColorSpace.itur_709
-            hdr_color_space = CGColorSpace.itur_709_PQ
-            hlg_color_space = CGColorSpace.itur_709_HLG
-        }
-        if (image_color_space! as NSString).contains("2100") {
-            sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
-            hdr_color_space = CGColorSpace.itur_2100_PQ
-            hlg_color_space = CGColorSpace.itur_2100_HLG
-        }
-        if (image_color_space! as NSString).contains("2020") {
-            sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
-            hdr_color_space = CGColorSpace.itur_2100_PQ
-            hlg_color_space = CGColorSpace.itur_2100_HLG
+        
+        let image_color_space = hdr_image?.colorSpace!
+        let image_color_space_name = hdr_image?.colorSpace?.name
+    
+        if image_color_space_name == nil {
+            sdr_color_space = CGColorSpace.adobeRGB1998
+            hdr_color_space = CGColorSpace.adobeRGB1998
+            hlg_color_space = CGColorSpace.adobeRGB1998
+        } else {
+            if (image_color_space_name! as NSString).contains("709") {
+                sdr_color_space = CGColorSpace.itur_709
+                hdr_color_space = CGColorSpace.itur_709_PQ
+                hlg_color_space = CGColorSpace.itur_709_HLG
+            }
+            if (image_color_space_name! as NSString).contains("sRGB") {
+                sdr_color_space = CGColorSpace.itur_709
+                hdr_color_space = CGColorSpace.itur_709_PQ
+                hlg_color_space = CGColorSpace.itur_709_HLG
+            }
+            if (image_color_space_name! as NSString).contains("2100") {
+                sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
+                hdr_color_space = CGColorSpace.itur_2100_PQ
+                hlg_color_space = CGColorSpace.itur_2100_HLG
+            }
+            if (image_color_space_name! as NSString).contains("2020") {
+                sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
+                hdr_color_space = CGColorSpace.itur_2100_PQ
+                hlg_color_space = CGColorSpace.itur_2100_HLG
+            }
         }
 
         if self.imageQuality > 1 {
