@@ -25,10 +25,15 @@ class Converter {
     var SDR: Bool
     var PQ: Bool
     var HLG: Bool
-
+    var MonoGainMap: Bool
+    /**
+     * outputType: 0: HEIF, 1: JPEG, 2: PNG, 3: TIFF
+     */
+    var outputType: Int
+    
     init(
         src: String, dest: String, imageQuality: Double, colorSpace: String, colorDepth: Int,
-        SDR: Bool, PQ: Bool, HLG: Bool
+        SDR: Bool, PQ: Bool, HLG: Bool, Google: Bool, outputType: Int
     ) {
         self.src = src
         self.dest = dest
@@ -38,32 +43,52 @@ class Converter {
         self.SDR = SDR
         self.PQ = PQ
         self.HLG = HLG
+        self.MonoGainMap = Google
+        self.outputType = outputType
     }
-
+    
     func convert() -> Int {
+        if MonoGainMap {
+            return self.convertMonoGainMap()
+        } else {
+            return self.convertDefault()
+        }
+    }
+    
+    private func getFileName(url: URL) -> String {
+        switch self.outputType {
+        case 0:
+            return url.deletingPathExtension().appendingPathExtension("HEIC")
+                .lastPathComponent
+        case 1:
+            return url.deletingPathExtension().appendingPathExtension("JPG")
+                .lastPathComponent
+        case 2:
+            return url.deletingPathExtension().appendingPathExtension("PNG")
+                .lastPathComponent
+        case 3:
+            return url.deletingPathExtension().appendingPathExtension("TIFF")
+                .lastPathComponent
+        default:
+            return url.lastPathComponent
+        }
+    }
+    
+    private func convertDefault() -> Int {
         let ctx = CIContext()
-
-        /*
-         let arguments = CommandLine.arguments
-         guard arguments.count > 2 else {
-         print("Usage: PQHDRtoGMHDR <source file> <destination folder> <options>\n       options:\n         -q <value>: image quality (default: 0.85)\n         -c <color space>: specify output color space (srgb, p3, rec2020)\n         -d <color depth>: specify output color depth (default: 8)\n         -s: export tone mapped SDR image without HDR gain map\n         -p: export 10bit PQ HDR heic image")
-         exit(1)
-         }
-         */
-
+        
         let url_hdr = URL(fileURLWithPath: self.src)
-        let filename = url_hdr.deletingPathExtension().appendingPathExtension("heic")
-            .lastPathComponent
+        let filename = self.getFileName(url: url_hdr)
         let path_export = URL(fileURLWithPath: self.dest)
-        let url_export_heic = path_export.appendingPathComponent(filename)
+        let url_export_image = path_export.appendingPathComponent(filename)
         //let imageoptions
-
+        
         var imagequality: Double? = 0.85
         var sdr_export: Bool = false
         var pq_export: Bool = false
         var hlg_export: Bool = false
         var bit_depth = CIFormat.RGBA8
-
+        
         let hdr_image = CIImage(contentsOf: url_hdr, options: [.expandToHDR: true])
         let tonemapped_sdrimage = hdr_image?.applyingFilter(
             "CIToneMapHeadroom", parameters: ["inputTargetHeadroom": 1.0])
@@ -71,47 +96,46 @@ class Converter {
             kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.85,
             CIImageRepresentationOption.hdrImage: hdr_image!,
         ])
-
+        
         var sdr_color_space = CGColorSpace.displayP3
         var hdr_color_space = CGColorSpace.displayP3_PQ
         var hlg_color_space = CGColorSpace.displayP3_HLG
         
-        let image_color_space = hdr_image?.colorSpace!
-        let image_color_space_name = hdr_image?.colorSpace?.name
-    
-        if image_color_space_name == nil {
+        let image_color_space = String(describing: hdr_image?.colorSpace)
+        
+        if image_color_space.contains("709") {
+            sdr_color_space = CGColorSpace.itur_709
+            hdr_color_space = CGColorSpace.itur_709_PQ
+            hlg_color_space = CGColorSpace.itur_709_HLG
+        }
+        if image_color_space.contains("sRGB") {
+            sdr_color_space = CGColorSpace.itur_709
+            hdr_color_space = CGColorSpace.itur_709_PQ
+            hlg_color_space = CGColorSpace.itur_709_HLG
+        }
+        if image_color_space.contains("2100") {
+            sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
+            hdr_color_space = CGColorSpace.itur_2100_PQ
+            hlg_color_space = CGColorSpace.itur_2100_HLG
+        }
+        if image_color_space.contains("2020") {
+            sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
+            hdr_color_space = CGColorSpace.itur_2100_PQ
+            hlg_color_space = CGColorSpace.itur_2100_HLG
+        }
+        if image_color_space.contains("Adobe RGB") {
             sdr_color_space = CGColorSpace.adobeRGB1998
             hdr_color_space = CGColorSpace.adobeRGB1998
             hlg_color_space = CGColorSpace.adobeRGB1998
-        } else {
-            if (image_color_space_name! as NSString).contains("709") {
-                sdr_color_space = CGColorSpace.itur_709
-                hdr_color_space = CGColorSpace.itur_709_PQ
-                hlg_color_space = CGColorSpace.itur_709_HLG
-            }
-            if (image_color_space_name! as NSString).contains("sRGB") {
-                sdr_color_space = CGColorSpace.itur_709
-                hdr_color_space = CGColorSpace.itur_709_PQ
-                hlg_color_space = CGColorSpace.itur_709_HLG
-            }
-            if (image_color_space_name! as NSString).contains("2100") {
-                sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
-                hdr_color_space = CGColorSpace.itur_2100_PQ
-                hlg_color_space = CGColorSpace.itur_2100_HLG
-            }
-            if (image_color_space_name! as NSString).contains("2020") {
-                sdr_color_space = CGColorSpace.itur_2020_sRGBGamma
-                hdr_color_space = CGColorSpace.itur_2100_PQ
-                hlg_color_space = CGColorSpace.itur_2100_HLG
-            }
         }
-
+        
+        
         if self.imageQuality > 1 {
             imagequality = self.imageQuality / 100
         } else {
             imagequality = self.imageQuality
         }
-
+        
         if self.SDR {
             if self.PQ || self.HLG {
                 debugPrint("Error: Only one type of export can be specified.")
@@ -119,7 +143,7 @@ class Converter {
             }
             sdr_export = true
         }
-
+        
         if self.PQ {
             if self.SDR || self.HLG {
                 debugPrint("Error: Only one type of export can be specified.")
@@ -127,7 +151,7 @@ class Converter {
             }
             pq_export = true
         }
-
+        
         if self.HLG {
             if self.SDR || self.PQ {
                 debugPrint("Error: Only one type of export can be specified.")
@@ -135,11 +159,15 @@ class Converter {
             }
             hlg_export = true
         }
-
+        
         if self.colorDepth == 10 {
             bit_depth = CIFormat.RGB10
         }
-
+        
+        if self.colorDepth == 16 {
+            bit_depth = CIFormat.RGBX16
+        }
+        
         switch self.colorSpace {
         case "srgb", "709", "rec709", "rec.709", "bt709", "bt,709", "itu709", "sRGB":
             sdr_color_space = CGColorSpace.itur_709
@@ -158,51 +186,120 @@ class Converter {
             debugPrint(
                 "Error: The colorSpace argument requires color space argument. (srgb, p3, rec2020)")
         }
-
+        
         while sdr_export {
             let sdr_export_options = NSDictionary(dictionary: [
                 kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.85
             ])
             try! ctx.writeHEIFRepresentation(
                 of: tonemapped_sdrimage!,
-                to: url_export_heic,
+                to: url_export_image,
                 format: bit_depth,
                 colorSpace: CGColorSpace(name: sdr_color_space)!,
                 options: sdr_export_options as! [CIImageRepresentationOption: Any])
             return 0
         }
-
+        
         while hlg_export {
             let hlg_export_options = NSDictionary(dictionary: [
                 kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.85
             ])
-            try! ctx.writeHEIFRepresentation(
-                of: hdr_image!,
-                to: url_export_heic,
-                format: bit_depth,
-                colorSpace: CGColorSpace(name: hlg_color_space)!,
-                options: hlg_export_options as! [CIImageRepresentationOption: Any])
+            switch self.outputType {
+            case 0:
+                try! ctx.writeHEIF10Representation(
+                    of: hdr_image!,
+                    to: url_export_image,
+                    colorSpace: CGColorSpace(name: hlg_color_space)!,
+                    options: hlg_export_options as! [CIImageRepresentationOption: Any])
+            case 1:
+                try! ctx.writeJPEGRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                 options: hlg_export_options as! [CIImageRepresentationOption: Any])
+            case 2:
+                try! ctx.writePNGRepresentation(of: tonemapped_sdrimage!,
+                                                to: url_export_image,
+                                                format: bit_depth,
+                                                colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                options: hlg_export_options as! [CIImageRepresentationOption: Any])
+            case 3:
+                try! ctx.writeTIFFRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 format: bit_depth,
+                                                 colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                 options: hlg_export_options as! [CIImageRepresentationOption: Any])
+            default:
+                return -1
+            }
             return 0
         }
-
+        
         while pq_export {
             let pq_export_options = NSDictionary(dictionary: [
                 kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.85
             ])
-            try! ctx.writeHEIF10Representation(
-                of: hdr_image!,
-                to: url_export_heic,
-                colorSpace: CGColorSpace(name: hdr_color_space)!,
-                options: pq_export_options as! [CIImageRepresentationOption: Any])
+            switch self.outputType {
+            case 0:
+                try! ctx.writeHEIF10Representation(
+                    of: hdr_image!,
+                    to: url_export_image,
+                    colorSpace: CGColorSpace(name: hdr_color_space)!,
+                    options: pq_export_options as! [CIImageRepresentationOption: Any])
+            case 1:
+                try! ctx.writeJPEGRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                 options: pq_export_options as! [CIImageRepresentationOption: Any])
+            case 2:
+                try! ctx.writePNGRepresentation(of: tonemapped_sdrimage!,
+                                                to: url_export_image,
+                                                format: bit_depth,
+                                                colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                options: pq_export_options as! [CIImageRepresentationOption: Any])
+            case 3:
+                try! ctx.writeTIFFRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 format: bit_depth,
+                                                 colorSpace: CGColorSpace(name: hdr_color_space)!,
+                                                 options: pq_export_options as! [CIImageRepresentationOption: Any])
+            default:
+                return -1
+            }
             return 0
         }
-
-        try! ctx.writeHEIFRepresentation(
-            of: tonemapped_sdrimage!,
-            to: url_export_heic,
-            format: bit_depth,
-            colorSpace: CGColorSpace(name: sdr_color_space)!,
-            options: export_options as! [CIImageRepresentationOption: Any])
+        
+        switch self.outputType {
+        case 0:
+            try! ctx.writeHEIFRepresentation(of: tonemapped_sdrimage!,
+                                             to: url_export_image,
+                                             format: bit_depth,
+                                             colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                             options: export_options as! [CIImageRepresentationOption: Any])
+        case 1:
+            try! ctx.writeJPEGRepresentation(of: tonemapped_sdrimage!,
+                                             to: url_export_image,
+                                             colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                             options: export_options as! [CIImageRepresentationOption: Any])
+        case 2:
+            try! ctx.writePNGRepresentation(of: tonemapped_sdrimage!,
+                                            to: url_export_image,
+                                            format: bit_depth,
+                                            colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                            options: export_options as! [CIImageRepresentationOption: Any])
+        case 3:
+            try! ctx.writeTIFFRepresentation(of: tonemapped_sdrimage!,
+                                             to: url_export_image,
+                                             format: bit_depth,
+                                             colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                             options: export_options as! [CIImageRepresentationOption: Any])
+        default:
+            return -1
+        }
+        
+        return 0
+    }
+    
+    private func convertMonoGainMap() -> Int {
         return 0
     }
 }
