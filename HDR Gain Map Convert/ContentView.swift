@@ -20,7 +20,7 @@ struct ContentView: View {
     @State private var outputPQ: Bool = false
     @State private var outputHLG: Bool = false
     @State private var outputSDR: Bool = false
-    @State private var outputGooglePhoto: Bool = false
+    @State private var outputGooglePhotos: Bool = false
     @State private var threadCount: Int = 10
     @State private var imageQuality: Double = 0.95
     @State private var outputType: Int = 0
@@ -124,7 +124,11 @@ struct ContentView: View {
                     }
                 }
                 
+                Spacer()
+                
                 self.outputOptions()
+                
+                Spacer()
                 
                 Section(header: Text("Image Quality")) {
                     Slider(value: $imageQuality, in: 0.01...1.0, step: 0.01)
@@ -151,33 +155,33 @@ struct ContentView: View {
     private func outputOptions() -> some View {
         Section(header: Text("Output Options")) {
             Toggle("Output PQ Image", isOn: $outputPQ)
-                .disabled(outputHLG || outputSDR || outputGooglePhoto)
+                .disabled(outputHLG || outputSDR || outputGooglePhotos)
                 .onChange(of: outputPQ, {
                     outputHLG = false
                     outputSDR = false
-                    outputGooglePhoto = false
+                    outputGooglePhotos = false
                 })
             
             Toggle("Output HLG Image", isOn: $outputHLG)
-                .disabled(outputPQ || outputSDR || outputGooglePhoto)
+                .disabled(outputPQ || outputSDR || outputGooglePhotos)
                 .onChange(of: outputHLG, {
                     outputPQ = false
                     outputSDR = false
-                    outputGooglePhoto = false
+                    outputGooglePhotos = false
                 })
             
             
             Toggle("Output SDR Image", isOn: $outputSDR)
-                .disabled(outputPQ || outputHLG || outputGooglePhoto)
+                .disabled(outputPQ || outputHLG || outputGooglePhotos)
                 .onChange(of: outputSDR, {
                     outputPQ = false
                     outputHLG = false
-                    outputGooglePhoto = false
+                    outputGooglePhotos = false
                 })
             
-            Toggle("Output Google Photo Compatible HDR Image", isOn: $outputGooglePhoto)
+            Toggle("Output Google Photos Compatible HDR Image", isOn: $outputGooglePhotos)
                 .disabled(outputPQ || outputHLG || outputSDR)
-                .onChange(of: outputGooglePhoto, {
+                .onChange(of: outputGooglePhotos, {
                     outputPQ = false
                     outputHLG = false
                     outputSDR = false
@@ -221,6 +225,7 @@ struct ContentView: View {
                     convertImage()
                 }
                 .padding()
+                .buttonStyle(.borderedProminent)
                 .disabled(sourceFilePaths.isEmpty || outputDirectoryPath.isEmpty)
             }
             settingsPanel(singleFile: true)
@@ -259,6 +264,7 @@ struct ContentView: View {
                         convertImages()
                     }
                     .padding()
+                    .buttonStyle(.borderedProminent)
                     .disabled(sourceFilePaths.isEmpty || outputDirectoryPath.isEmpty)
                     
                 }
@@ -321,7 +327,7 @@ struct ContentView: View {
         // TODO: 在这里实现单个文件的转换逻辑
         print("源文件: \(sourceFilePaths.first ?? "")")
         print("输出目录: \(outputDirectoryPath)")
-        let converter = Converter(src: sourceFilePaths.first ?? "", dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhoto, outputType: outputType)
+        let converter = Converter(src: sourceFilePaths.first ?? "", dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhotos, outputType: outputType)
         let result = converter.convert()
         if result == 0 {
             print("Converted")
@@ -346,7 +352,7 @@ struct ContentView: View {
                 semaphore.wait() // 等待信号量
                 
                 // 使用当前路径而不是第一个元素
-                let converter = Converter(src: path, dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhoto, outputType: outputType)
+                let converter = Converter(src: path, dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhotos, outputType: outputType)
                 let result = converter.convert()
                 if result == 0 {
                     print("Converted image: \(path)")
