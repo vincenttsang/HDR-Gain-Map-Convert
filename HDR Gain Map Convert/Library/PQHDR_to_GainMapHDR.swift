@@ -189,14 +189,35 @@ class Converter {
         
         while sdr_export {
             let sdr_export_options = NSDictionary(dictionary: [
-                kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.85
+                kCGImageDestinationLossyCompressionQuality: imagequality ?? 0.90
             ])
-            try! ctx.writeHEIFRepresentation(
-                of: tonemapped_sdrimage!,
-                to: url_export_image,
-                format: bit_depth,
-                colorSpace: CGColorSpace(name: sdr_color_space)!,
-                options: sdr_export_options as! [CIImageRepresentationOption: Any])
+            switch self.outputType {
+            case 0:
+                try! ctx.writeHEIFRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 format: bit_depth,
+                                                 colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                                 options: sdr_export_options as! [CIImageRepresentationOption: Any])
+            case 1:
+                try! ctx.writeJPEGRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                                 options: sdr_export_options as! [CIImageRepresentationOption: Any])
+            case 2:
+                try! ctx.writePNGRepresentation(of: tonemapped_sdrimage!,
+                                                to: url_export_image,
+                                                format: bit_depth,
+                                                colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                                options: sdr_export_options as! [CIImageRepresentationOption: Any])
+            case 3:
+                try! ctx.writeTIFFRepresentation(of: tonemapped_sdrimage!,
+                                                 to: url_export_image,
+                                                 format: bit_depth,
+                                                 colorSpace: CGColorSpace(name: sdr_color_space)!,
+                                                 options: sdr_export_options as! [CIImageRepresentationOption: Any])
+            default:
+                return -1
+            }
             return 0
         }
         
