@@ -6,6 +6,37 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildRule section */
+		BF44F53C2CFEFEA10094617F /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ci.metal";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/${INPUT_FILE_BASE}.air",
+			);
+			runOncePerArchitecture = 0;
+			script = "# Type a script or drag a script file from your workspace to insert its path.\nxcrun metal -c -fcikernel \"${INPUT_FILE_PATH}\" -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+		BF865F4A2CFEFEEC00573065 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.ci.air";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(METAL_LIBRARY_OUTPUT_DIR)/$(INPUT_FILE_BASE).metallib",
+			);
+			runOncePerArchitecture = 0;
+			script = "# Type a script or drag a script file from your workspace to insert its path.\nxcrun metallib -cikernel \"${INPUT_FILE_PATH}\" -o \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXContainerItemProxy section */
 		BF8DD8F32CEF0FC300E39B6E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -104,6 +135,8 @@
 				BF8DD8DF2CEF0FC100E39B6E /* Resources */,
 			);
 			buildRules = (
+				BF865F4A2CFEFEEC00573065 /* PBXBuildRule */,
+				BF44F53C2CFEFEA10094617F /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -395,7 +428,7 @@
 				CODE_SIGN_ENTITLEMENTS = "HDR Gain Map Convert/HDR_Gain_Map_Convert.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"HDR Gain Map Convert/Preview Content\"";
 				DEVELOPMENT_TEAM = H65Q9JS5ZG;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -423,7 +456,7 @@
 				CODE_SIGN_ENTITLEMENTS = "HDR Gain Map Convert/HDR_Gain_Map_Convert.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"HDR Gain Map Convert/Preview Content\"";
 				DEVELOPMENT_TEAM = H65Q9JS5ZG;
 				ENABLE_HARDENED_RUNTIME = YES;
