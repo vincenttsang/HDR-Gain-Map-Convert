@@ -1,0 +1,40 @@
+{
+  "" : {
+    "const-values" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master.swiftconstvalues",
+    "dependencies" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master.d",
+    "diagnostics" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master.dia",
+    "emit-module-dependencies" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master-emit-module.dia",
+    "swift-dependencies" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR Gain Map Convert-master.swiftdeps"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/ContentView.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/ContentView.o"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/HDR_Gain_Map_ConvertApp.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR_Gain_Map_ConvertApp.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR_Gain_Map_ConvertApp.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/HDR_Gain_Map_ConvertApp.o"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/Converter.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/Converter.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/Converter.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/Converter.o"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/GainMapFilter/GainMapFilter.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GainMapFilter.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GainMapFilter.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GainMapFilter.o"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/GainMapFilter/gmAdjustFilter.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/gmAdjustFilter.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/gmAdjustFilter.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/gmAdjustFilter.o"
+  },
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source": "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/HDR_Gain_Map_ConvertApp.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "PQ_HDR_to_Gain_Map_HDR Core: v2.2.0",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 16
+        }
+      }
+    ]
+  },
+  "version": 1
+}

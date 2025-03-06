@@ -13,7 +13,7 @@ struct HDR_Gain_Map_ConvertApp: App {
         WindowGroup {
             VStack {
                 ContentView()
-                Text("PQ_HDR_to_Gain_Map_HDR Core: v2.2.0")
+                Text("PQ_HDR_to_Gain_Map_HDR Core: v2.3.1")
                     .padding()
                 Spacer()
             }

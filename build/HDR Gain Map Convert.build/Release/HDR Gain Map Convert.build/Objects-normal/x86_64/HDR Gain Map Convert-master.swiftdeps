@@ -1,0 +1,12 @@
+version: "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
+options: "6e1302ce80dbbf15cdeb954122a47a2755487b2e36e3645f40af8cf3a68cdbe2"
+build_start_time: [1741237551, 453935000]
+build_end_time: [1741237557, 292980000]
+inputs:
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/ContentView.swift": [1741235120, 210794394]
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/HDR_Gain_Map_ConvertApp.swift": [1741234973, 438225244]
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/Converter.swift": [1739596098, 980030496]
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/GainMapFilter/GainMapFilter.swift": [1739596098, 980212120]
+  "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/HDR Gain Map Convert/Library/GainMapFilter/gmAdjustFilter.swift": [1739596098, 980398869]
+  ? "/Users/vincent/Documents/GitHub/HDR-Gain-Map-Convert/build/HDR Gain Map Convert.build/Release/HDR Gain Map Convert.build/DerivedSources/GeneratedAssetSymbols.swift"
+  : [1741237550, 393022472]
