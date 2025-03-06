@@ -93,6 +93,7 @@ struct ContentView: View {
     
     private func settingsPanel(singleFile: Bool) -> some View {
         VStack {
+            Spacer()
             Form {
                 Section(header: Text("Color Space")) {
                     Picker("Select Color Space", selection: $colorSpace) {
