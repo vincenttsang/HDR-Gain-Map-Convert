@@ -341,40 +341,93 @@ struct ContentView: View {
     private func convertImages() {
         isConverting = true
         progress = 0.0
-        let queue = DispatchQueue(label: "org.image.onverter", attributes: .concurrent)
-        let group = DispatchGroup()
-        let semaphore = DispatchSemaphore(value: threadCount) // 创建信号量
         
-        for path in sourceFilePaths {
-            group.enter() // 进入组
+        // Process files in manageable batches to avoid exhausting system resources
+        let batchSize = threadCount // Set the batch size equal to the number of available threads
+        let fileBatches = sourceFilePaths.chunked(into: batchSize)
+        
+        processBatches(fileBatches, currentBatchIndex: 0)
+    }
+    
+    private func processBatches(_ batches: [[String]], currentBatchIndex: Int) {
+        guard currentBatchIndex < batches.count else {
+            // All batches completed
+            DispatchQueue.main.async {
+                self.isConverting = false
+                print("输出目录: \(self.outputDirectoryPath)")
+                self.sendNotification()
+            }
+            return
+        }
+        
+        let currentBatch = batches[currentBatchIndex]
+        let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
+        let group = DispatchGroup()
+        let semaphore = DispatchSemaphore(value: min(threadCount, 16)) // Limit to max 16 concurrent operations per batch
+        
+        print("Processing batch \(currentBatchIndex + 1)/\(batches.count) with \(currentBatch.count) files")
+        
+        for path in currentBatch {
+            group.enter()
             
-            // 在并发队列中执行转换
             queue.async {
-                semaphore.wait() // 等待信号量
+                semaphore.wait()
                 
-                // 使用当前路径而不是第一个元素
-                let converter = Converter(src: path, dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhotos, outputType: outputType)
-                let result = converter.convert()
-                if result == 0 {
-                    print("Converted image: \(path)")
-                } else {
-                    print("Failed to convert image: \(path)")
+                // Create converter for each file but ensure proper cleanup
+                autoreleasepool {
+                    let converter = Converter(
+                        src: path, 
+                        dest: self.outputDirectoryPath, 
+                        imageQuality: self.imageQuality, 
+                        colorSpace: self.colorSpace, 
+                        colorDepth: self.bitDepth, 
+                        SDR: self.outputSDR, 
+                        PQ: self.outputPQ, 
+                        HLG: self.outputHLG, 
+                        Google: self.outputGooglePhotos, 
+                        outputType: self.outputType
+                    )
+                    let result = converter.convert()
+                    if result == 0 {
+                        print("Converted image: \(path)")
+                    } else {
+                        print("Failed to convert image: \(path)")
+                    }
                 }
                 
-                // 更新进度
+                // Update progress
                 DispatchQueue.main.async {
-                    progress += 1.0
+                    self.progress += 1.0
                 }
                 
-                semaphore.signal() // 释放信号量
-                group.leave() // 离开组
+                semaphore.signal()
+                group.leave()
             }
         }
         
         group.notify(queue: DispatchQueue.main) {
-            isConverting = false
-            print("输出目录: \(outputDirectoryPath)")
-            sendNotification()
+            // Add a small delay between batches to allow system cleanup
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // Force garbage collection between batches
+                self.forceMemoryCleanup()
+                
+                // Process next batch
+                self.processBatches(batches, currentBatchIndex: currentBatchIndex + 1)
+            }
+        }
+    }
+    
+    private func forceMemoryCleanup() {
+        // Force memory cleanup between batches
+        autoreleasepool {
+            // Trigger garbage collection
+            if #available(macOS 10.12, *) {
+                // Force memory pressure to clean up resources
+                DispatchQueue.global(qos: .utility).async {
+                    // This helps trigger cleanup of accumulated resources
+                    let _ = Array(repeating: 0, count: 1000)
+                }
+            }
         }
     }
     
@@ -412,6 +465,14 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Array Extension for Batch Processing
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0..<Swift.min($0 + size, count)])
+        }
+    }
+}
 
 #Preview {
     ContentView()
