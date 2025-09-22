@@ -4,5 +4,5 @@
    Traditional Chinese Localization
 */
 
-CFBundleDisplayName = "HDR增益映射轉換";
-CFBundleName = "HDR增益映射轉換";
+CFBundleDisplayName = "HDR相片轉換器";
+CFBundleName = "HDR相片轉換器";

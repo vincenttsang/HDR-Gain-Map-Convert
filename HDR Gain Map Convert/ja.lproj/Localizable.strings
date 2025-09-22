@@ -1,8 +1,32 @@
-/* 
+/*
    Localizable.strings
    HDR Gain Map Convert
    Japanese Localization
 */
+
+// Output Options
+"output_pq_image" = "PQ画像を出力";
+"output_hlg_image" = "HLG画像を出力";
+"output_sdr_image" = "SDR画像を出力";
+"output_google_photos" = "Google フォト対応HDR画像を出力";
+"export_to_photo_library" = "写真ライブラリにエクスポート";
+"photo_library" = "写真ライブラリ";
+
+// Single File View
+"select_single_source_file" = "単一の元ファイルを選択";
+"source_file_path" = "元ファイルのパス";
+"select_source_file" = "元ファイルを選択";
+"select_from_photo_library" = "写真ライブラリから選択";
+"output_directory_path" = "出力ディレクトリのパス";
+"select_output_directory" = "出力ディレクトリを選択";
+"convert_image" = "画像を変換";
+
+// Multiple Files View
+"select_multiple_source_files" = "複数の元ファイルを選択";
+"select_multiple_source_files_button" = "複数の元ファイルを選択";
+"select_from_photo_library_multiple" = "写真ライブラリから複数選択";
+"convert_images" = "画像を変換";
+"conversion_progress" = "変換の進行状況";
 
 // Tab Labels
 "single_file" = "単一ファイル";

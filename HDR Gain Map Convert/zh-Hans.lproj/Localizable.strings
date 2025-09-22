@@ -30,11 +30,14 @@
 "output_hlg_image" = "输出HLG图像";
 "output_sdr_image" = "输出SDR图像";
 "output_google_photos" = "输出Google相册兼容HDR图像";
+"export_to_photo_library" = "导出到照片库";
+"photo_library" = "照片库";
 
 // Single File View
 "select_single_source_file" = "选择单个源文件";
 "source_file_path" = "源文件路径";
 "select_source_file" = "选择源文件";
+"select_from_photo_library" = "从照片库选择";
 "output_directory_path" = "输出目录路径";
 "select_output_directory" = "选择输出目录";
 "convert_image" = "转换图片";
@@ -42,6 +45,7 @@
 // Multiple Files View
 "select_multiple_source_files" = "选择多个源文件";
 "select_multiple_source_files_button" = "选择多个源文件";
+"select_from_photo_library_multiple" = "从照片库选择多张";
 "convert_images" = "转换图片";
 "conversion_progress" = "转换进度";
 

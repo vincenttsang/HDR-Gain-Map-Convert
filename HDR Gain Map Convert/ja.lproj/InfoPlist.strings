@@ -4,5 +4,5 @@
    Japanese Localization
 */
 
-CFBundleDisplayName = "HDRゲインマップ変換";
-CFBundleName = "HDRゲインマップ変換";
+CFBundleDisplayName = "HDR写真変換ツールボックス";
+CFBundleName = "HDR写真変換ツールボックス";
