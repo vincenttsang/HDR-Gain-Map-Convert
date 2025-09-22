@@ -8,11 +8,9 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import UserNotifications
-#if os(iOS)
 import UIKit
 import PhotosUI
 import Photos
-#endif
 
 struct ContentView: View {
     @State private var sourceFilePaths: [String] = []
@@ -24,10 +22,9 @@ struct ContentView: View {
     // PhotoPicker states for iOS photo library access
     @State private var showSinglePhotoPicker: Bool = false
     @State private var showMultiPhotoPicker: Bool = false
-    #if os(iOS)
     @State private var singlePhotoPickerItem: PhotosPickerItem? = nil
     @State private var multiPhotoPickerItems: [PhotosPickerItem] = []
-    #endif
+    
     // Export destination selection
     @State private var exportToPhotoLibrary: Bool = false
     // Persistent bookmark for output directory (iOS security-scoped)
@@ -41,11 +38,7 @@ struct ContentView: View {
     @State private var outputHLG: Bool = false
     @State private var outputSDR: Bool = false
     @State private var outputGooglePhotos: Bool = false
-    #if os(iOS)
     @State private var threadCount: Int = 3
-    #else
-    @State private var threadCount: Int = 10
-    #endif
     @State private var imageQuality: Double = 0.95
     @State private var outputType: Int = 0
     
@@ -57,7 +50,7 @@ struct ContentView: View {
         (id: 2, name: "PNG"),
         (id: 3, name: "TIFF")
     ]
-
+    
     /**
      * outputType:
      * 0: HEIF
@@ -93,12 +86,8 @@ struct ContentView: View {
         }
     }
     
-    #if os(iOS)
     // Mobile devices have far fewer high-performance cores; limit choices to safe ranges
     let threadCounts = [1, 2, 3, 4]
-    #else
-    let threadCounts = [2, 4, 6, 8, 10, 12, 14, 16]
-    #endif
     
     var body: some View {
         TabView(selection: $isSingleFileMode) {
@@ -107,7 +96,7 @@ struct ContentView: View {
                     Label(NSLocalizedString("single_file", comment: "Single file tab"), systemImage: "doc")
                 }
                 .tag(true)
-        
+            
             multipleFilesView()
                 .tabItem {
                     Label(NSLocalizedString("multiple_files", comment: "Multiple files tab"), systemImage: "folder")
@@ -117,14 +106,9 @@ struct ContentView: View {
         .onAppear {
             requestNotificationPermission()
             // Try to restore persisted output directory bookmark (iOS)
-            #if os(iOS)
             if let data = UserDefaults.standard.data(forKey: "outputDirectoryBookmark") {
                 var isStale = false
-                #if os(macOS)
-                let resolveOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
-                #else
                 let resolveOptions: URL.BookmarkResolutionOptions = []
-                #endif
                 if let url = try? URL(resolvingBookmarkData: data, options: resolveOptions, relativeTo: nil, bookmarkDataIsStale: &isStale) {
                     // Try to access the security-scoped resource briefly to validate path
                     if url.startAccessingSecurityScopedResource() {
@@ -136,12 +120,10 @@ struct ContentView: View {
                     self.outputDirectoryBookmark = data
                 }
             }
-            #endif
         }
         .padding()
-
+        
         // iOS document picker sheets
-        #if os(iOS)
         .sheet(isPresented: $showSinglePicker) {
             DocumentPickerView(contentTypes: [UTType.tiff, UTType.image, UTType.rawImage], allowsMultipleSelection: false, asCopy: true) { urls in
                 if let url = urls.first {
@@ -159,11 +141,7 @@ struct ContentView: View {
                 if let url = urls.first {
                     // Create a persistent bookmark to allow re-opening the directory later
                     do {
-                        #if os(macOS)
-                        let bookmark = try url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
-                        #else
                         let bookmark = try url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil)
-                        #endif
                         UserDefaults.standard.set(bookmark, forKey: "outputDirectoryBookmark")
                         self.outputDirectoryBookmark = bookmark
                         self.outputDirectoryPath = url.path
@@ -188,20 +166,14 @@ struct ContentView: View {
                 await loadPhotoPickerItems(items: newItems)
             }
         }
-        #endif
     }
-
+    
     // Platform aware maximum concurrent operations to avoid overwhelming mobile SoCs
     private var maxConcurrentOperations: Int {
-        #if os(iOS)
         // Use a conservative cap for iOS/iPadOS. Use min(threadCount, calculated) so user can pick lower.
         // Prefer at most 4 or number of physical cores if lower.
         let physicalCores = ProcessInfo.processInfo.activeProcessorCount
         return max(1, min(threadCount, min(4, physicalCores)))
-        #else
-        // Keep existing macOS behavior allowing up to 16 concurrent operations
-        return max(1, min(threadCount, 16))
-        #endif
     }
     
     private func settingsPanel(singleFile: Bool) -> some View {
@@ -217,13 +189,13 @@ struct ContentView: View {
                 }
                 
                 Section(header: Text(NSLocalizedString("output_file_type", comment: "Output file type section header"))) {
-                                Picker(NSLocalizedString("select_file_type", comment: "File type picker"), selection: $outputType) {
-                                    ForEach(fileTypes, id: \.id) { fileType in
-                                        Text(fileType.name).tag(fileType.id)
-                                    }
-                                }
-                                .pickerStyle(MenuPickerStyle()) // 可选样式
-                            }
+                    Picker(NSLocalizedString("select_file_type", comment: "File type picker"), selection: $outputType) {
+                        ForEach(fileTypes, id: \.id) { fileType in
+                            Text(fileType.name).tag(fileType.id)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle()) // 可选样式
+                }
                 
                 Section(header: Text(NSLocalizedString("bit_depth", comment: "Bit depth section header"))) {
                     Picker(NSLocalizedString("select_bit_depth", comment: "Bit depth picker"), selection: $bitDepth) {
@@ -268,7 +240,6 @@ struct ContentView: View {
     
     private func outputOptions() -> some View {
         Section(header: Text(NSLocalizedString("output_options", comment: "Output options section header"))) {
-            #if os(iOS)
             Toggle(NSLocalizedString("export_to_photo_library", comment: "Export to photo library toggle"), isOn: $exportToPhotoLibrary)
                 .onChange(of: exportToPhotoLibrary) {
                     if exportToPhotoLibrary {
@@ -277,7 +248,6 @@ struct ContentView: View {
                         outputDirectoryPath = ""
                     }
                 }
-            #endif
             
             Toggle(NSLocalizedString("output_pq_image", comment: "PQ output toggle"), isOn: $outputPQ)
                 .disabled(outputHLG || outputSDR || outputGooglePhotos)
@@ -332,50 +302,33 @@ struct ContentView: View {
                 .disabled(true)
                 
                 Button(NSLocalizedString("select_source_file", comment: "Select source file button")) {
-                    #if os(iOS)
                     showSinglePicker = true
-                    #else
-                    selectSourceFile()
-                    #endif
                 }
                 .padding()
                 
-                #if os(iOS)
                 Button(NSLocalizedString("select_from_photo_library", comment: "Select from photo library button")) {
                     showSinglePhotoPicker = true
                 }
                 .padding()
-                #endif
                 
                 TextField(NSLocalizedString("output_directory_path", comment: "Output directory path placeholder"), text: $outputDirectoryPath)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                     .disabled(true)
                 
-                #if os(iOS)
                 if !exportToPhotoLibrary {
                     Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
                         showDirectoryPicker = true
                     }
                     .padding()
                 }
-                #else
-                Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
-                    selectOutputDirectory()
-                }
-                .padding()
-                #endif
                 
                 Button(NSLocalizedString("convert_image", comment: "Convert image button")) {
                     convertImage()
                 }
                 .padding()
                 .buttonStyle(.borderedProminent)
-#if os(iOS)
-                    .disabled(sourceFilePaths.isEmpty || !exportToPhotoLibrary && outputDirectoryPath.isEmpty)
-#else
-                    .disabled(sourceFilePaths.isEmpty || outputDirectoryPath.isEmpty)
-#endif
+                .disabled(sourceFilePaths.isEmpty || !exportToPhotoLibrary && outputDirectoryPath.isEmpty)
             }
             settingsPanel(singleFile: true)
         }
@@ -395,50 +348,34 @@ struct ContentView: View {
                     }
                     
                     Button(NSLocalizedString("select_multiple_source_files_button", comment: "Select multiple source files button")) {
-                        #if os(iOS)
                         showMultiPicker = true
-                        #else
-                        selectMultipleSourceFiles()
-                        #endif
                     }
                     .padding()
                     
-                    #if os(iOS)
                     Button(NSLocalizedString("select_from_photo_library_multiple", comment: "Select multiple from photo library button")) {
                         showMultiPhotoPicker = true
                     }
                     .padding()
-                    #endif
                     
                     TextField(NSLocalizedString("output_directory_path", comment: "Output directory path placeholder"), text: $outputDirectoryPath)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .disabled(true)
                     
-                    #if os(iOS)
                     if !exportToPhotoLibrary {
                         Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
                             showDirectoryPicker = true
                         }
                         .padding()
                     }
-                    #else
-                    Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
-                        selectOutputDirectory()
-                    }
-                    .padding()
-                    #endif
+                    
                     
                     Button(NSLocalizedString("convert_images", comment: "Convert images button")) {
                         convertImages()
                     }
                     .padding()
                     .buttonStyle(.borderedProminent)
-#if os(iOS)
                     .disabled(sourceFilePaths.isEmpty || !exportToPhotoLibrary && outputDirectoryPath.isEmpty)
-#else
-                    .disabled(sourceFilePaths.isEmpty || outputDirectoryPath.isEmpty)
-#endif
                 }
                 settingsPanel(singleFile: false)
             }
@@ -451,229 +388,156 @@ struct ContentView: View {
         
     }
     
-#if os(macOS)
-    private func selectSourceFile() {
-        let dialog = NSOpenPanel()
-        dialog.title = NSLocalizedString("select_source_file_dialog", comment: "Select source file dialog title")
-        dialog.allowedContentTypes = [UTType.tiff, UTType.image, UTType.rawImage]
-        dialog.canChooseDirectories = false
-        dialog.canChooseFiles = true
+    // MARK: - Photo Library Functions
+    private func loadPhotoPickerItem(item: PhotosPickerItem, isMultiple: Bool) async {
+        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
         
-        dialog.begin { result in
-            if result == .OK, let url = dialog.url {
-                sourceFilePaths = [url.path] // 更新为单个文件路径
-            }
-        }
-    }
-#endif
-    
-#if os(macOS)
-    private func selectMultipleSourceFiles() {
-        let dialog = NSOpenPanel()
-        dialog.title = NSLocalizedString("select_multiple_source_files_dialog", comment: "Select multiple source files dialog title")
-        dialog.allowedContentTypes = [UTType.tiff, UTType.image, UTType.rawImage]
-        dialog.canChooseDirectories = false
-        dialog.canChooseFiles = true
-        dialog.allowsMultipleSelection = true // 允许选择多个文件
-        
-        dialog.begin { result in
-            if result == .OK {
-                sourceFilePaths = dialog.urls.map { $0.path } // 更新为多个文件路径
-            }
-        }
-    }
-#endif
-    
-#if os(macOS)
-    private func selectOutputDirectory() {
-        let dialog = NSOpenPanel()
-        dialog.title = NSLocalizedString("select_output_directory_dialog", comment: "Select output directory dialog title")
-        dialog.canChooseDirectories = true
-        dialog.canChooseFiles = false
-        dialog.allowsMultipleSelection = false
-        dialog.canCreateDirectories = true
-        
-        dialog.begin { result in
-            if result == .OK, let url = dialog.url {
-                outputDirectoryPath = url.path
-            }
-        }
-    }
-#endif
-
-#if os(iOS)
-    private func selectSourceFile() {
-        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
-    }
-#endif
-
-#if os(iOS)
-    private func selectMultipleSourceFiles() {
-        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
-    }
-#endif
-
-#if os(iOS)
-    private func selectOutputDirectory() {
-        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
-    }
-#endif
-
-// MARK: - Photo Library Functions
-#if os(iOS)
-private func loadPhotoPickerItem(item: PhotosPickerItem, isMultiple: Bool) async {
-    guard let data = try? await item.loadTransferable(type: Data.self) else { return }
-    
-    // Create temporary file for the image data
-    let tempDirectory = FileManager.default.temporaryDirectory
-    let tempFileName = "\(UUID().uuidString).\(item.supportedContentTypes.first?.preferredFilenameExtension ?? "jpg")"
-    let tempURL = tempDirectory.appendingPathComponent(tempFileName)
-    
-    do {
-        try data.write(to: tempURL)
-        await MainActor.run {
-            if isMultiple {
-                self.sourceFilePaths.append(tempURL.path)
-            } else {
-                self.sourceFilePaths = [tempURL.path]
-            }
-        }
-    } catch {
-        print("Failed to save photo picker item: \(error)")
-    }
-}
-
-private func loadPhotoPickerItems(items: [PhotosPickerItem]) async {
-    var paths: [String] = []
-    
-    for item in items {
-        guard let data = try? await item.loadTransferable(type: Data.self) else { continue }
-        
+        // Create temporary file for the image data
         let tempDirectory = FileManager.default.temporaryDirectory
         let tempFileName = "\(UUID().uuidString).\(item.supportedContentTypes.first?.preferredFilenameExtension ?? "jpg")"
         let tempURL = tempDirectory.appendingPathComponent(tempFileName)
         
         do {
             try data.write(to: tempURL)
-            paths.append(tempURL.path)
+            await MainActor.run {
+                if isMultiple {
+                    self.sourceFilePaths.append(tempURL.path)
+                } else {
+                    self.sourceFilePaths = [tempURL.path]
+                }
+            }
         } catch {
             print("Failed to save photo picker item: \(error)")
         }
     }
     
-    await MainActor.run {
-        self.sourceFilePaths = paths
-    }
-}
-
-private func saveImageToPhotoLibrary(imagePath: String) {
-    // Check if file exists first
-    guard FileManager.default.fileExists(atPath: imagePath) else {
-        print("File does not exist at path: \(imagePath)")
-        return
+    private func loadPhotoPickerItems(items: [PhotosPickerItem]) async {
+        var paths: [String] = []
+        
+        for item in items {
+            guard let data = try? await item.loadTransferable(type: Data.self) else { continue }
+            
+            let tempDirectory = FileManager.default.temporaryDirectory
+            let tempFileName = "\(UUID().uuidString).\(item.supportedContentTypes.first?.preferredFilenameExtension ?? "jpg")"
+            let tempURL = tempDirectory.appendingPathComponent(tempFileName)
+            
+            do {
+                try data.write(to: tempURL)
+                paths.append(tempURL.path)
+            } catch {
+                print("Failed to save photo picker item: \(error)")
+            }
+        }
+        
+        await MainActor.run {
+            self.sourceFilePaths = paths
+        }
     }
     
-    PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
-        switch status {
-        case .authorized, .limited:
-            // Try to save using the file URL directly for better format preservation
-            let fileURL = URL(fileURLWithPath: imagePath)
-            
-            PHPhotoLibrary.shared().performChanges({
-                let request = PHAssetCreationRequest.forAsset()
-                request.addResource(with: .photo, fileURL: fileURL, options: nil)
-            }) { success, error in
-                DispatchQueue.main.async {
-                    if success {
-                        print("Image saved to photo library successfully: \(imagePath)")
-                        // Clean up temporary file
-                        try? FileManager.default.removeItem(atPath: imagePath)
-                    } else if let error = error {
-                        print("Error saving image to photo library: \(error)")
-                        // Fallback: try with UIImage
-                        self.saveImageFallback(imagePath: imagePath)
+    private func saveImageToPhotoLibrary(imagePath: String) {
+        // Check if file exists first
+        guard FileManager.default.fileExists(atPath: imagePath) else {
+            print("File does not exist at path: \(imagePath)")
+            return
+        }
+        
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            switch status {
+            case .authorized, .limited:
+                // Try to save using the file URL directly for better format preservation
+                let fileURL = URL(fileURLWithPath: imagePath)
+                
+                PHPhotoLibrary.shared().performChanges({
+                    let request = PHAssetCreationRequest.forAsset()
+                    request.addResource(with: .photo, fileURL: fileURL, options: nil)
+                }) { success, error in
+                    DispatchQueue.main.async {
+                        if success {
+                            print("Image saved to photo library successfully: \(imagePath)")
+                            // Clean up temporary file
+                            try? FileManager.default.removeItem(atPath: imagePath)
+                        } else if let error = error {
+                            print("Error saving image to photo library: \(error)")
+                            // Fallback: try with UIImage
+                            self.saveImageFallback(imagePath: imagePath)
+                        }
                     }
                 }
+            case .denied, .restricted:
+                print("Photo library access denied or restricted")
+            case .notDetermined:
+                print("Photo library access not determined")
+            @unknown default:
+                print("Unknown photo library authorization status")
             }
-        case .denied, .restricted:
-            print("Photo library access denied or restricted")
-        case .notDetermined:
-            print("Photo library access not determined")
-        @unknown default:
-            print("Unknown photo library authorization status")
         }
-    }
-}
-
-private func saveImageFallback(imagePath: String) {
-    guard let image = UIImage(contentsOfFile: imagePath) else {
-        print("Failed to load image from path for fallback: \(imagePath)")
-        return
     }
     
-    PHPhotoLibrary.shared().performChanges({
-        PHAssetChangeRequest.creationRequestForAsset(from: image)
-    }) { success, error in
-        DispatchQueue.main.async {
-            if success {
-                print("Image saved to photo library successfully (fallback): \(imagePath)")
-            } else if let error = error {
-                print("Error saving image to photo library (fallback): \(error)")
+    private func saveImageFallback(imagePath: String) {
+        guard let image = UIImage(contentsOfFile: imagePath) else {
+            print("Failed to load image from path for fallback: \(imagePath)")
+            return
+        }
+        
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAsset(from: image)
+        }) { success, error in
+            DispatchQueue.main.async {
+                if success {
+                    print("Image saved to photo library successfully (fallback): \(imagePath)")
+                } else if let error = error {
+                    print("Error saving image to photo library (fallback): \(error)")
+                }
+                // Clean up temporary file
+                try? FileManager.default.removeItem(atPath: imagePath)
             }
-            // Clean up temporary file
-            try? FileManager.default.removeItem(atPath: imagePath)
         }
     }
-}
-#endif
-
-// MARK: - UIDocumentPicker helper
-#if os(iOS)
-
-/// SwiftUI wrapper for UIDocumentPickerViewController
-struct DocumentPickerView: UIViewControllerRepresentable {
-    var contentTypes: [UTType]
-    var allowsMultipleSelection: Bool = false
-    var asCopy: Bool = true
-    var completion: ([URL]) -> Void
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(completion: completion)
-    }
-
-    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let controller = UIDocumentPickerViewController(forOpeningContentTypes: contentTypes, asCopy: asCopy)
-        controller.delegate = context.coordinator
-        controller.allowsMultipleSelection = allowsMultipleSelection
-        return controller
-    }
-
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
-
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        let completion: ([URL]) -> Void
-
-        init(completion: @escaping ([URL]) -> Void) {
-            self.completion = completion
+    
+    // MARK: - UIDocumentPicker helper
+    
+    /// SwiftUI wrapper for UIDocumentPickerViewController
+    struct DocumentPickerView: UIViewControllerRepresentable {
+        var contentTypes: [UTType]
+        var allowsMultipleSelection: Bool = false
+        var asCopy: Bool = true
+        var completion: ([URL]) -> Void
+        
+        func makeCoordinator() -> Coordinator {
+            Coordinator(completion: completion)
         }
-
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            completion(urls)
+        
+        func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+            let controller = UIDocumentPickerViewController(forOpeningContentTypes: contentTypes, asCopy: asCopy)
+            controller.delegate = context.coordinator
+            controller.allowsMultipleSelection = allowsMultipleSelection
+            return controller
         }
-
-        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-            completion([])
+        
+        func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
+        
+        class Coordinator: NSObject, UIDocumentPickerDelegate {
+            let completion: ([URL]) -> Void
+            
+            init(completion: @escaping ([URL]) -> Void) {
+                self.completion = completion
+            }
+            
+            func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+                completion(urls)
+            }
+            
+            func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+                completion([])
+            }
         }
     }
-}
-
-#endif
+    
     
     private func convertImage() {
         print(String(format: NSLocalizedString("source_file", comment: "Source file log"), sourceFilePaths.first ?? ""))
         print(String(format: NSLocalizedString("output_directory", comment: "Output directory log"), outputDirectoryPath))
         
-        #if os(iOS)
         if exportToPhotoLibrary {
             // Use temporary directory for photo library export
             let actualOutputPath = FileManager.default.temporaryDirectory.path
@@ -682,20 +546,8 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             // Use security-scoped resource for file system export
             convertToFileSystem()
         }
-        #else
-        let converter = Converter(src: sourceFilePaths.first ?? "", dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhotos, outputType: outputType)
-        let result = converter.convert()
-        
-        if result == 0 {
-            print(NSLocalizedString("converted", comment: "Conversion success log"))
-            sendNotification()
-        } else {
-            print(NSLocalizedString("failed", comment: "Conversion failure log"))
-        }
-        #endif
     }
     
-    #if os(iOS)
     private func convertToFileSystem() {
         guard let bookmarkData = outputDirectoryBookmark else {
             print("❌ Error: No output directory bookmark available")
@@ -779,13 +631,11 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         default: return "HEIC"
         }
     }
-    #endif
     
     private func convertImages() {
         isConverting = true
         progress = 0.0
         
-        #if os(iOS)
         if exportToPhotoLibrary {
             // Use temporary directory for photo library export
             let actualOutputPath = FileManager.default.temporaryDirectory.path
@@ -794,15 +644,8 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             // Use security-scoped resource for file system export
             processBatchesForFileSystem(sourceFilePaths)
         }
-        #else
-        // Process files in manageable batches to avoid exhausting system resources
-        let batchSize = threadCount
-        let fileBatches = sourceFilePaths.chunked(into: batchSize)
-        processBatches(fileBatches, currentBatchIndex: 0)
-        #endif
     }
     
-    #if os(iOS)
     private func processBatchesForLibrary(_ filePaths: [String], outputPath: String) {
         let batchSize = threadCount
         let fileBatches = filePaths.chunked(into: batchSize)
@@ -846,7 +689,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let currentBatch = batches[currentBatchIndex]
         let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
         let group = DispatchGroup()
-    let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
+        let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
         
         for path in currentBatch {
             group.enter()
@@ -924,7 +767,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let currentBatch = batches[currentBatchIndex]
         let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
         let group = DispatchGroup()
-    let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
+        let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
         
         for path in currentBatch {
             group.enter()
@@ -968,77 +811,6 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             }
         }
     }
-    #endif
-    
-    #if os(macOS)
-    private func processBatches(_ batches: [[String]], currentBatchIndex: Int) {
-        guard currentBatchIndex < batches.count else {
-            // All batches completed
-            DispatchQueue.main.async {
-                self.isConverting = false
-                print(String(format: NSLocalizedString("output_directory", comment: "Output directory log"), self.outputDirectoryPath))
-                self.sendNotification()
-            }
-            return
-        }
-        
-        let currentBatch = batches[currentBatchIndex]
-        let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
-        let group = DispatchGroup()
-    let semaphore = DispatchSemaphore(value: maxConcurrentOperations) // Platform-aware limit for concurrent operations
-        
-        print(String(format: NSLocalizedString("processing_batch", comment: "Processing batch log"), currentBatchIndex + 1, batches.count, currentBatch.count))
-        
-        for path in currentBatch {
-            group.enter()
-            
-            queue.async {
-                semaphore.wait()
-                
-                // Create converter for each file but ensure proper cleanup
-                autoreleasepool {
-                    let converter = Converter(
-                        src: path, 
-                        dest: self.outputDirectoryPath, 
-                        imageQuality: self.imageQuality, 
-                        colorSpace: self.colorSpace, 
-                        colorDepth: self.bitDepth, 
-                        SDR: self.outputSDR, 
-                        PQ: self.outputPQ, 
-                        HLG: self.outputHLG, 
-                        Google: self.outputGooglePhotos, 
-                        outputType: self.outputType
-                    )
-                    let result = converter.convert()
-                    if result == 0 {
-                        print(String(format: NSLocalizedString("converted_image", comment: "Converted image log"), path))
-                    } else {
-                        print(String(format: NSLocalizedString("failed_to_convert_image", comment: "Failed to convert image log"), path))
-                    }
-                }
-                
-                // Update progress
-                DispatchQueue.main.async {
-                    self.progress += 1.0
-                }
-                
-                semaphore.signal()
-                group.leave()
-            }
-        }
-        
-        group.notify(queue: DispatchQueue.main) {
-            // Add a small delay between batches to allow system cleanup
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // Force garbage collection between batches
-                self.forceMemoryCleanup()
-                
-                // Process next batch
-                self.processBatches(batches, currentBatchIndex: currentBatchIndex + 1)
-            }
-        }
-    }
-    #endif
     
     private func forceMemoryCleanup() {
         // Force memory cleanup between batches
@@ -1080,14 +852,6 @@ struct DocumentPickerView: UIViewControllerRepresentable {
             }
         }
     }
-    
-    // 在 Finder 中查看文件夹
-#if os(macOS)
-    func openInFinder() {
-        let url = URL(fileURLWithPath: outputDirectoryPath)
-        NSWorkspace.shared.open(url)
-    }
-#endif
 }
 
 // MARK: - Array Extension for Batch Processing

@@ -1,13 +1,13 @@
 //
-//  HDR_Gain_Map_ConvertUITests.swift
-//  HDR Gain Map ConvertUITests
+//  iGainMapHDRUITests.swift
+//  iGainMapHDRUITests
 //
-//  Created by Vincent Tsang on 21/11/2024.
+//  Created by Vincent Tsang on 22/9/2025.
 //
 
 import XCTest
 
-final class HDR_Gain_Map_ConvertUITests: XCTestCase {
+final class iGainMapHDRUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,11 +33,9 @@ final class HDR_Gain_Map_ConvertUITests: XCTestCase {
 
     @MainActor
     func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+        // This measures how long it takes to launch your application.
+        measure(metrics: [XCTApplicationLaunchMetric()]) {
+            XCUIApplication().launch()
         }
     }
 }

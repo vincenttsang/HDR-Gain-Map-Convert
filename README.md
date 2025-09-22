@@ -1,6 +1,6 @@
-### HDR Gain Map Convert (macOS)
+### iGainMapHDR (iPadOS/iOS)
 
-- 一款以 Swift + SwiftUI 開發的 macOS 圖形介面工具，用於把不同格式的高動態範圍（HDR）圖像轉換成可用的 HDR/SDR 圖像或含 gain map 的 HEIF，用於 Apple/Android 平台或照片服務（例如 Google Photos）。
+- 一款以 Swift + SwiftUI 開發的 iPadOS/iOS 圖形介面工具（從macOS版移植），用於把不同格式的高動態範圍（HDR）圖像轉換成可用的 HDR/SDR 圖像或含 gain map 的 HEIF，用於 Apple/Android 平台或照片服務（例如 Google Photos）。
 
 ## 本專案原始實作參考自: https://github.com/chemharuka/PQ_HDR_to_Gain_Map_HDR
 
@@ -17,15 +17,15 @@
 
 ## 文件結構
 
-- `HDR Gain Map Convert/ContentView.swift` — SwiftUI 使用者介面，提供單檔或批次轉換、輸出選項、進度顯示等。
-- `HDR Gain Map Convert/Library/Converter.swift` — 轉檔核心邏輯，基於 Core Image 處理 HDR 圖像、計算 gain map、控制輸出格式與 metadata（Apple MakerNote）等。
-- `HDR Gain Map Convert/Library/GainMapFilter/` — (包含自定義 Core Image kernel 的濾鏡，會影響 gain map 的計算，請參閱資料夾內檔案)
+- `iGainMapHDR/ContentView.swift` — SwiftUI 使用者介面，提供單檔或批次轉換、輸出選項、進度顯示等。
+- `iGainMapHDR/Library/Converter.swift` — 轉檔核心邏輯，基於 Core Image 處理 HDR 圖像、計算 gain map、控制輸出格式與 metadata（Apple MakerNote）等。
+- `iGainMapHDR/Library/GainMapFilter/` — (包含自定義 Core Image kernel 的濾鏡，會影響 gain map 的計算，請參閱資料夾內檔案)
 - 本專案包含多語系字串檔（例如 `Base.lproj`、`zh-Hans.lproj` 等）
 
 ## 使用說明（開發者/測試）
 
 1) 以 Xcode 打開專案：
-	 - 開啟 `HDR Gain Map Convert.xcodeproj`，選擇適當的 Scheme 並執行。
+	 - 開啟 `iGainMapHDR.xcodeproj`，選擇適當的 Scheme 並執行。
 2) 在程式介面中：
 	 - 選擇單一檔案或多檔案模式。
 	 - 選擇來源 HDR 圖像與輸出資料夾。

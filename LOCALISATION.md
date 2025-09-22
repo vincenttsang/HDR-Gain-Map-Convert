@@ -1,22 +1,22 @@
-# Localization Setup
+# Localisation Setup
 
-This HDR Gain Map Convert app now supports internationalization (i18n) with the following languages:
+This iGainMapHDR app now supports internationalization (i18n) with the following languages:
 
 ## Supported Languages
 
-1. **English (Base)** - Base localization
+1. **English (Base)** - Base localisation
 2. **English (UK)** - British English variant  
 3. **Simplified Chinese (zh-Hans)** - 简体中文
 4. **Traditional Chinese (zh-Hant)** - 繁體中文
 5. **Japanese (ja)** - 日本語
 6. **Cantonese (zh-HK)** - 廣東話 (Hong Kong)
 
-## Localization Files
+## Localisation Files
 
-The localization files are organized in the following structure:
+The localisation files are organized in the following structure:
 
 ```
-HDR Gain Map Convert/
+iGainMapHDR/
 ├── Base.lproj/
 │   ├── Localizable.strings
 │   └── InfoPlist.strings
@@ -37,7 +37,7 @@ HDR Gain Map Convert/
     └── InfoPlist.strings
 ```
 
-## Key Features Localized
+## Key Features Localised
 
 - Tab labels (Single File, Multiple Files)
 - Settings panel headers and options
@@ -50,7 +50,7 @@ HDR Gain Map Convert/
 ## How to Test
 
 1. Build and run the app in Xcode
-2. Change your system language to test different localizations
+2. Change your system language to test different localisations
 3. Alternatively, you can test in Xcode by:
    - Going to Product → Scheme → Edit Scheme
    - Under "Run" → "Options" → "App Language"
@@ -68,7 +68,7 @@ To add support for additional languages:
 
 ## Technical Implementation
 
-- All user-facing strings use `NSLocalizedString()` for automatic localization
-- String formatting is handled with proper localization support
+- All user-facing strings use `NSLocalizedString()` for automatic localisation
+- String formatting is handled with proper localisation support
 - The app respects the user's system language preferences
-- Fallback to Base localization if a specific language is unavailable
+- Fallback to Base localisation if a specific language is unavailable

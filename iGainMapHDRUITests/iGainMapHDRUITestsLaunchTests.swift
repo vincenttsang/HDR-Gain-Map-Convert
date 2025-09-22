@@ -1,13 +1,13 @@
 //
-//  HDR_Gain_Map_ConvertUITestsLaunchTests.swift
-//  HDR Gain Map ConvertUITests
+//  iGainMapHDRUITestsLaunchTests.swift
+//  iGainMapHDRUITests
 //
-//  Created by Vincent Tsang on 21/11/2024.
+//  Created by Vincent Tsang on 22/9/2025.
 //
 
 import XCTest
 
-final class HDR_Gain_Map_ConvertUITestsLaunchTests: XCTestCase {
+final class iGainMapHDRUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
