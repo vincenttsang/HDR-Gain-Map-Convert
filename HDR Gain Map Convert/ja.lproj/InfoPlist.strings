@@ -1,0 +1,8 @@
+/* 
+   InfoPlist.strings
+   HDR Gain Map Convert
+   Japanese Localization
+*/
+
+CFBundleDisplayName = "HDRゲインマップ変換";
+CFBundleName = "HDRゲインマップ変換";

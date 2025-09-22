@@ -1,0 +1,72 @@
+/* 
+   Localizable.strings
+   HDR Gain Map Convert
+   Base/English Localization
+*/
+
+// Tab Labels
+"single_file" = "Single File";
+"multiple_files" = "Multiple Files";
+
+// Settings Headers
+"color_space" = "Color Space";
+"output_file_type" = "Output File Type";
+"bit_depth" = "Bit Depth";
+"output_options" = "Output Options";
+"image_quality" = "Image Quality";
+"concurrency" = "Concurrency";
+
+// Picker Options
+"select_color_space" = "Select Color Space";
+"select_file_type" = "Select File Type";
+"select_bit_depth" = "Select Bit Depth";
+"selected_quality" = "Selected Quality: %.2f";
+"select_thread_count" = "Select Thread Count";
+"threads" = "%d Threads";
+"bit" = "%d-Bit";
+
+// Output Options
+"output_pq_image" = "Output PQ Image";
+"output_hlg_image" = "Output HLG Image";
+"output_sdr_image" = "Output SDR Image";
+"output_google_photos" = "Output Google Photos Compatible HDR Image";
+
+// Single File View
+"select_single_source_file" = "Select Single Source File";
+"source_file_path" = "Source File Path";
+"select_source_file" = "Select Source File";
+"output_directory_path" = "Output Directory Path";
+"select_output_directory" = "Select Output Directory";
+"convert_image" = "Convert Image";
+
+// Multiple Files View
+"select_multiple_source_files" = "Select Multiple Source Files";
+"select_multiple_source_files_button" = "Select Multiple Source Files";
+"convert_images" = "Convert Images";
+"conversion_progress" = "Conversion Progress";
+
+// File Dialog Titles
+"select_source_file_dialog" = "Select Source File";
+"select_multiple_source_files_dialog" = "Select Multiple Source Files";
+"select_output_directory_dialog" = "Select Output Directory";
+
+// Navigation
+"image_converter_settings" = "Image Converter Settings";
+
+// Notifications
+"conversion_complete" = "Conversion Complete";
+"conversion_complete_body" = "Your photos have been converted successfully. Click to view.";
+"notification_permission_error" = "Error requesting notification permission: %@";
+"notification_send_error" = "Error sending notification: %@";
+
+// App Version
+"core_version" = "PQ_HDR_to_Gain_Map_HDR Core: v2.3.1";
+
+// Console Messages
+"converted" = "Converted";
+"failed" = "Failed";
+"converted_image" = "Converted image: %@";
+"failed_to_convert_image" = "Failed to convert image: %@";
+"source_file" = "Source file: %@";
+"output_directory" = "Output directory: %@";
+"processing_batch" = "Processing batch %d/%d with %d files";

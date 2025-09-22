@@ -1,0 +1,72 @@
+/* 
+   Localizable.strings
+   HDR Gain Map Convert
+   Japanese Localization
+*/
+
+// Tab Labels
+"single_file" = "単一ファイル";
+"multiple_files" = "複数ファイル";
+
+// Settings Headers
+"color_space" = "色空間";
+"output_file_type" = "出力ファイル形式";
+"bit_depth" = "ビット深度";
+"output_options" = "出力オプション";
+"image_quality" = "画質";
+"concurrency" = "並行処理";
+
+// Picker Options
+"select_color_space" = "色空間を選択";
+"select_file_type" = "ファイル形式を選択";
+"select_bit_depth" = "ビット深度を選択";
+"selected_quality" = "選択された品質: %.2f";
+"select_thread_count" = "スレッド数を選択";
+"threads" = "%d スレッド";
+"bit" = "%dビット";
+
+// Output Options
+"output_pq_image" = "PQ画像を出力";
+"output_hlg_image" = "HLG画像を出力";
+"output_sdr_image" = "SDR画像を出力";
+"output_google_photos" = "Google フォト対応HDR画像を出力";
+
+// Single File View
+"select_single_source_file" = "単一の元ファイルを選択";
+"source_file_path" = "元ファイルのパス";
+"select_source_file" = "元ファイルを選択";
+"output_directory_path" = "出力ディレクトリのパス";
+"select_output_directory" = "出力ディレクトリを選択";
+"convert_image" = "画像を変換";
+
+// Multiple Files View
+"select_multiple_source_files" = "複数の元ファイルを選択";
+"select_multiple_source_files_button" = "複数の元ファイルを選択";
+"convert_images" = "画像を変換";
+"conversion_progress" = "変換進捗";
+
+// File Dialog Titles
+"select_source_file_dialog" = "元ファイルを選択";
+"select_multiple_source_files_dialog" = "複数の元ファイルを選択";
+"select_output_directory_dialog" = "出力ディレクトリを選択";
+
+// Navigation
+"image_converter_settings" = "画像変換設定";
+
+// Notifications
+"conversion_complete" = "変換完了";
+"conversion_complete_body" = "写真の変換が完了しました。クリックして確認してください。";
+"notification_permission_error" = "通知許可の要求エラー: %@";
+"notification_send_error" = "通知送信エラー: %@";
+
+// App Version
+"core_version" = "PQ_HDR_to_Gain_Map_HDR コア: v2.3.1";
+
+// Console Messages
+"converted" = "変換完了";
+"failed" = "失敗";
+"converted_image" = "画像を変換しました: %@";
+"failed_to_convert_image" = "画像の変換に失敗しました: %@";
+"source_file" = "元ファイル: %@";
+"output_directory" = "出力ディレクトリ: %@";
+"processing_batch" = "バッチ %d/%d を処理中（%d ファイル）";

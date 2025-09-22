@@ -75,13 +75,13 @@ struct ContentView: View {
         TabView(selection: $isSingleFileMode) {
             singleFileView()
                 .tabItem {
-                    Label("单个文件", systemImage: "doc")
+                    Label(NSLocalizedString("single_file", comment: "Single file tab"), systemImage: "doc")
                 }
                 .tag(true)
         
             multipleFilesView()
                 .tabItem {
-                    Label("多个文件", systemImage: "folder")
+                    Label(NSLocalizedString("multiple_files", comment: "Multiple files tab"), systemImage: "folder")
                 }
                 .tag(false)
         }
@@ -95,16 +95,16 @@ struct ContentView: View {
         VStack {
             Spacer()
             Form {
-                Section(header: Text("Color Space")) {
-                    Picker("Select Color Space", selection: $colorSpace) {
+                Section(header: Text(NSLocalizedString("color_space", comment: "Color space section header"))) {
+                    Picker(NSLocalizedString("select_color_space", comment: "Color space picker"), selection: $colorSpace) {
                         ForEach(colorSpaces, id: \.self) {
                             Text($0)
                         }
                     }
                 }
                 
-                Section(header: Text("Output File Type")) {
-                                Picker("Select File Type", selection: $outputType) {
+                Section(header: Text(NSLocalizedString("output_file_type", comment: "Output file type section header"))) {
+                                Picker(NSLocalizedString("select_file_type", comment: "File type picker"), selection: $outputType) {
                                     ForEach(fileTypes, id: \.id) { fileType in
                                         Text(fileType.name).tag(fileType.id)
                                     }
@@ -112,10 +112,10 @@ struct ContentView: View {
                                 .pickerStyle(MenuPickerStyle()) // 可选样式
                             }
                 
-                Section(header: Text("Bit Depth")) {
-                    Picker("Select Bit Depth", selection: $bitDepth) {
+                Section(header: Text(NSLocalizedString("bit_depth", comment: "Bit depth section header"))) {
+                    Picker(NSLocalizedString("select_bit_depth", comment: "Bit depth picker"), selection: $bitDepth) {
                         ForEach(bitDepths, id: \.self) {
-                            Text("\($0)-Bit")
+                            Text(String(format: NSLocalizedString("bit", comment: "Bit depth label"), $0))
                         }
                     }
                     .onChange(of: bitDepths) {
@@ -131,31 +131,31 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Section(header: Text("Image Quality")) {
+                Section(header: Text(NSLocalizedString("image_quality", comment: "Image quality section header"))) {
                     Slider(value: $imageQuality, in: 0.01...1.0, step: 0.01)
                         .padding()
-                    Text("Selected Quality: \(imageQuality, specifier: "%.2f")")
+                    Text(String(format: NSLocalizedString("selected_quality", comment: "Selected quality label"), imageQuality))
                         .padding()
                 }
                 
                 if !singleFile {
-                    Section(header: Text("Concurrency")) {
-                        Picker("Select Thread Count", selection: $threadCount) {
+                    Section(header: Text(NSLocalizedString("concurrency", comment: "Concurrency section header"))) {
+                        Picker(NSLocalizedString("select_thread_count", comment: "Thread count picker"), selection: $threadCount) {
                             ForEach(threadCounts, id: \.self) {
-                                Text("\($0) Threads")
+                                Text(String(format: NSLocalizedString("threads", comment: "Thread count label"), $0))
                             }
                         }
                     }
                 }
             }
-            .navigationTitle("Image Converter Settings")
+            .navigationTitle(NSLocalizedString("image_converter_settings", comment: "Navigation title"))
         }
         
     }
     
     private func outputOptions() -> some View {
-        Section(header: Text("Output Options")) {
-            Toggle("Output PQ Image", isOn: $outputPQ)
+        Section(header: Text(NSLocalizedString("output_options", comment: "Output options section header"))) {
+            Toggle(NSLocalizedString("output_pq_image", comment: "PQ output toggle"), isOn: $outputPQ)
                 .disabled(outputHLG || outputSDR || outputGooglePhotos)
                 .onChange(of: outputPQ, {
                     outputHLG = false
@@ -163,7 +163,7 @@ struct ContentView: View {
                     outputGooglePhotos = false
                 })
             
-            Toggle("Output HLG Image", isOn: $outputHLG)
+            Toggle(NSLocalizedString("output_hlg_image", comment: "HLG output toggle"), isOn: $outputHLG)
                 .disabled(outputPQ || outputSDR || outputGooglePhotos)
                 .onChange(of: outputHLG, {
                     outputPQ = false
@@ -172,7 +172,7 @@ struct ContentView: View {
                 })
             
             
-            Toggle("Output SDR Image", isOn: $outputSDR)
+            Toggle(NSLocalizedString("output_sdr_image", comment: "SDR output toggle"), isOn: $outputSDR)
                 .disabled(outputPQ || outputHLG || outputGooglePhotos)
                 .onChange(of: outputSDR, {
                     outputPQ = false
@@ -180,7 +180,7 @@ struct ContentView: View {
                     outputGooglePhotos = false
                 })
             
-            Toggle("Output Google Photos Compatible HDR Image", isOn: $outputGooglePhotos)
+            Toggle(NSLocalizedString("output_google_photos", comment: "Google Photos output toggle"), isOn: $outputGooglePhotos)
                 .disabled(outputPQ || outputHLG || outputSDR)
                 .onChange(of: outputGooglePhotos, {
                     outputPQ = false
@@ -195,11 +195,11 @@ struct ContentView: View {
     private func singleFileView() -> some View {
         HStack {
             VStack {
-                Text("选择单个源文件")
+                Text(NSLocalizedString("select_single_source_file", comment: "Single source file header"))
                     .font(.headline)
                     .padding()
                 
-                TextField("源文件路径", text: Binding(
+                TextField(NSLocalizedString("source_file_path", comment: "Source file path placeholder"), text: Binding(
                     get: { sourceFilePaths.first ?? "" },
                     set: { _ in }
                 ))
@@ -207,22 +207,22 @@ struct ContentView: View {
                 .padding()
                 .disabled(true)
                 
-                Button("选择源文件") {
+                Button(NSLocalizedString("select_source_file", comment: "Select source file button")) {
                     selectSourceFile()
                 }
                 .padding()
                 
-                TextField("输出目录路径", text: $outputDirectoryPath)
+                TextField(NSLocalizedString("output_directory_path", comment: "Output directory path placeholder"), text: $outputDirectoryPath)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                     .disabled(true)
                 
-                Button("选择输出目录") {
+                Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
                     selectOutputDirectory()
                 }
                 .padding()
                 
-                Button("转换图片") {
+                Button(NSLocalizedString("convert_image", comment: "Convert image button")) {
                     convertImage()
                 }
                 .padding()
@@ -238,7 +238,7 @@ struct ContentView: View {
         VStack {
             HStack {
                 VStack {
-                    Text("选择多个源文件")
+                    Text(NSLocalizedString("select_multiple_source_files", comment: "Multiple source files header"))
                         .font(.headline)
                         .padding()
                     
@@ -246,22 +246,22 @@ struct ContentView: View {
                         Text(path)
                     }
                     
-                    Button("选择多个源文件") {
+                    Button(NSLocalizedString("select_multiple_source_files_button", comment: "Select multiple source files button")) {
                         selectMultipleSourceFiles()
                     }
                     .padding()
                     
-                    TextField("输出目录路径", text: $outputDirectoryPath)
+                    TextField(NSLocalizedString("output_directory_path", comment: "Output directory path placeholder"), text: $outputDirectoryPath)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .disabled(true)
                     
-                    Button("选择输出目录") {
+                    Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
                         selectOutputDirectory()
                     }
                     .padding()
                     
-                    Button("转换图片") {
+                    Button(NSLocalizedString("convert_images", comment: "Convert images button")) {
                         convertImages()
                     }
                     .padding()
@@ -272,7 +272,7 @@ struct ContentView: View {
                 settingsPanel(singleFile: false)
             }
             if isConverting {
-                ProgressView("转换进度", value: progress, total: Double(sourceFilePaths.count))
+                ProgressView(NSLocalizedString("conversion_progress", comment: "Conversion progress label"), value: progress, total: Double(sourceFilePaths.count))
                     .progressViewStyle(LinearProgressViewStyle())
                     .padding()
             }
@@ -282,7 +282,7 @@ struct ContentView: View {
     
     private func selectSourceFile() {
         let dialog = NSOpenPanel()
-        dialog.title = "选择源文件"
+        dialog.title = NSLocalizedString("select_source_file_dialog", comment: "Select source file dialog title")
         dialog.allowedContentTypes = [UTType.tiff, UTType.image, UTType.rawImage]
         dialog.canChooseDirectories = false
         dialog.canChooseFiles = true
@@ -296,7 +296,7 @@ struct ContentView: View {
     
     private func selectMultipleSourceFiles() {
         let dialog = NSOpenPanel()
-        dialog.title = "选择多个源文件"
+        dialog.title = NSLocalizedString("select_multiple_source_files_dialog", comment: "Select multiple source files dialog title")
         dialog.allowedContentTypes = [UTType.tiff, UTType.image, UTType.rawImage]
         dialog.canChooseDirectories = false
         dialog.canChooseFiles = true
@@ -311,7 +311,7 @@ struct ContentView: View {
     
     private func selectOutputDirectory() {
         let dialog = NSOpenPanel()
-        dialog.title = "选择输出目录"
+        dialog.title = NSLocalizedString("select_output_directory_dialog", comment: "Select output directory dialog title")
         dialog.canChooseDirectories = true
         dialog.canChooseFiles = false
         dialog.allowsMultipleSelection = false
@@ -326,15 +326,15 @@ struct ContentView: View {
     
     private func convertImage() {
         // TODO: 在这里实现单个文件的转换逻辑
-        print("源文件: \(sourceFilePaths.first ?? "")")
-        print("输出目录: \(outputDirectoryPath)")
+        print(String(format: NSLocalizedString("source_file", comment: "Source file log"), sourceFilePaths.first ?? ""))
+        print(String(format: NSLocalizedString("output_directory", comment: "Output directory log"), outputDirectoryPath))
         let converter = Converter(src: sourceFilePaths.first ?? "", dest: outputDirectoryPath, imageQuality: imageQuality, colorSpace: colorSpace, colorDepth: bitDepth, SDR: outputSDR, PQ: outputPQ, HLG: outputHLG, Google: outputGooglePhotos, outputType: outputType)
         let result = converter.convert()
         if result == 0 {
-            print("Converted")
+            print(NSLocalizedString("converted", comment: "Conversion success log"))
             sendNotification()
         } else {
-            print("Failed")
+            print(NSLocalizedString("failed", comment: "Conversion failure log"))
         }
     }
     
@@ -354,7 +354,7 @@ struct ContentView: View {
             // All batches completed
             DispatchQueue.main.async {
                 self.isConverting = false
-                print("输出目录: \(self.outputDirectoryPath)")
+                print(String(format: NSLocalizedString("output_directory", comment: "Output directory log"), self.outputDirectoryPath))
                 self.sendNotification()
             }
             return
@@ -365,7 +365,7 @@ struct ContentView: View {
         let group = DispatchGroup()
         let semaphore = DispatchSemaphore(value: min(threadCount, 16)) // Limit to max 16 concurrent operations per batch
         
-        print("Processing batch \(currentBatchIndex + 1)/\(batches.count) with \(currentBatch.count) files")
+        print(String(format: NSLocalizedString("processing_batch", comment: "Processing batch log"), currentBatchIndex + 1, batches.count, currentBatch.count))
         
         for path in currentBatch {
             group.enter()
@@ -389,9 +389,9 @@ struct ContentView: View {
                     )
                     let result = converter.convert()
                     if result == 0 {
-                        print("Converted image: \(path)")
+                        print(String(format: NSLocalizedString("converted_image", comment: "Converted image log"), path))
                     } else {
-                        print("Failed to convert image: \(path)")
+                        print(String(format: NSLocalizedString("failed_to_convert_image", comment: "Failed to convert image log"), path))
                     }
                 }
                 
@@ -436,7 +436,7 @@ struct ContentView: View {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
-                print("请求通知权限时出错: \(error.localizedDescription)")
+                print(String(format: NSLocalizedString("notification_permission_error", comment: "Notification permission error"), error.localizedDescription))
             }
         }
     }
@@ -444,8 +444,8 @@ struct ContentView: View {
     // 发送通知
     func sendNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "转换完成"
-        content.body = "您的相片已转换完成，点击查看。"
+        content.title = NSLocalizedString("conversion_complete", comment: "Notification title")
+        content.body = NSLocalizedString("conversion_complete_body", comment: "Notification body")
         content.sound = UNNotificationSound.default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -453,7 +453,7 @@ struct ContentView: View {
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("发送通知时出错: \(error.localizedDescription)")
+                print(String(format: NSLocalizedString("notification_send_error", comment: "Notification send error"), error.localizedDescription))
             }
         }
     }

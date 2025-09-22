@@ -1,0 +1,8 @@
+/* 
+   InfoPlist.strings
+   HDR Gain Map Convert
+   Simplified Chinese Localization
+*/
+
+CFBundleDisplayName = "HDR增益映射转换";
+CFBundleName = "HDR增益映射转换";

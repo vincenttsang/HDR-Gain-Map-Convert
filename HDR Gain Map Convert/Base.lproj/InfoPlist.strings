@@ -1,0 +1,8 @@
+/* 
+   InfoPlist.strings
+   HDR Gain Map Convert
+   Base/English Localization
+*/
+
+CFBundleDisplayName = "HDR Gain Map Convert";
+CFBundleName = "HDR Gain Map Convert";

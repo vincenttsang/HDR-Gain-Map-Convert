@@ -1,0 +1,72 @@
+/* 
+   Localizable.strings
+   HDR Gain Map Convert
+   Simplified Chinese Localization
+*/
+
+// Tab Labels
+"single_file" = "单个文件";
+"multiple_files" = "多个文件";
+
+// Settings Headers
+"color_space" = "色彩空间";
+"output_file_type" = "输出文件类型";
+"bit_depth" = "位深度";
+"output_options" = "输出选项";
+"image_quality" = "图像质量";
+"concurrency" = "并发处理";
+
+// Picker Options
+"select_color_space" = "选择色彩空间";
+"select_file_type" = "选择文件类型";
+"select_bit_depth" = "选择位深度";
+"selected_quality" = "选择的质量: %.2f";
+"select_thread_count" = "选择线程数";
+"threads" = "%d 个线程";
+"bit" = "%d位";
+
+// Output Options
+"output_pq_image" = "输出PQ图像";
+"output_hlg_image" = "输出HLG图像";
+"output_sdr_image" = "输出SDR图像";
+"output_google_photos" = "输出Google相册兼容HDR图像";
+
+// Single File View
+"select_single_source_file" = "选择单个源文件";
+"source_file_path" = "源文件路径";
+"select_source_file" = "选择源文件";
+"output_directory_path" = "输出目录路径";
+"select_output_directory" = "选择输出目录";
+"convert_image" = "转换图片";
+
+// Multiple Files View
+"select_multiple_source_files" = "选择多个源文件";
+"select_multiple_source_files_button" = "选择多个源文件";
+"convert_images" = "转换图片";
+"conversion_progress" = "转换进度";
+
+// File Dialog Titles
+"select_source_file_dialog" = "选择源文件";
+"select_multiple_source_files_dialog" = "选择多个源文件";
+"select_output_directory_dialog" = "选择输出目录";
+
+// Navigation
+"image_converter_settings" = "图像转换器设置";
+
+// Notifications
+"conversion_complete" = "转换完成";
+"conversion_complete_body" = "您的相片已转换完成，点击查看。";
+"notification_permission_error" = "请求通知权限时出错: %@";
+"notification_send_error" = "发送通知时出错: %@";
+
+// App Version
+"core_version" = "PQ_HDR_to_Gain_Map_HDR 核心: v2.3.1";
+
+// Console Messages
+"converted" = "已转换";
+"failed" = "失败";
+"converted_image" = "已转换图像: %@";
+"failed_to_convert_image" = "转换图像失败: %@";
+"source_file" = "源文件: %@";
+"output_directory" = "输出目录: %@";
+"processing_batch" = "正在处理批次 %d/%d，共 %d 个文件";
