@@ -15,6 +15,12 @@ import UIKit
 struct ContentView: View {
     @State private var sourceFilePaths: [String] = []
     @State private var outputDirectoryPath: String = ""
+    // SwiftUI sheet presentation state for iOS pickers
+    @State private var showSinglePicker: Bool = false
+    @State private var showMultiPicker: Bool = false
+    @State private var showDirectoryPicker: Bool = false
+    // Persistent bookmark for output directory (iOS security-scoped)
+    @State private var outputDirectoryBookmark: Data? = nil
     @State private var isSingleFileMode: Bool = true // 控制单个文件或多个文件模式
     @State private var progress: Double = 0.0 // 进度值
     @State private var isConverting: Bool = false // 是否正在转换
@@ -90,8 +96,65 @@ struct ContentView: View {
         }
         .onAppear {
             requestNotificationPermission()
+            // Try to restore persisted output directory bookmark (iOS)
+            #if os(iOS)
+            if let data = UserDefaults.standard.data(forKey: "outputDirectoryBookmark") {
+                var isStale = false
+                #if os(macOS)
+                let resolveOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
+                #else
+                let resolveOptions: URL.BookmarkResolutionOptions = []
+                #endif
+                if let url = try? URL(resolvingBookmarkData: data, options: resolveOptions, relativeTo: nil, bookmarkDataIsStale: &isStale) {
+                    // Try to access the security-scoped resource briefly to validate path
+                    if url.startAccessingSecurityScopedResource() {
+                        self.outputDirectoryPath = url.path
+                        url.stopAccessingSecurityScopedResource()
+                    } else {
+                        self.outputDirectoryPath = url.path
+                    }
+                    self.outputDirectoryBookmark = data
+                }
+            }
+            #endif
         }
         .padding()
+
+        // iOS document picker sheets
+        #if os(iOS)
+        .sheet(isPresented: $showSinglePicker) {
+            DocumentPickerView(contentTypes: [UTType.tiff, UTType.image, UTType.rawImage], allowsMultipleSelection: false, asCopy: true) { urls in
+                if let url = urls.first {
+                    self.sourceFilePaths = [url.path]
+                }
+            }
+        }
+        .sheet(isPresented: $showMultiPicker) {
+            DocumentPickerView(contentTypes: [UTType.tiff, UTType.image, UTType.rawImage], allowsMultipleSelection: true, asCopy: true) { urls in
+                self.sourceFilePaths = urls.map { $0.path }
+            }
+        }
+        .sheet(isPresented: $showDirectoryPicker) {
+            DocumentPickerView(contentTypes: [UTType.folder], allowsMultipleSelection: false, asCopy: false) { urls in
+                if let url = urls.first {
+                    // Create a persistent bookmark to allow re-opening the directory later
+                    do {
+                        #if os(macOS)
+                        let bookmark = try url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
+                        #else
+                        let bookmark = try url.bookmarkData(options: [], includingResourceValuesForKeys: nil, relativeTo: nil)
+                        #endif
+                        UserDefaults.standard.set(bookmark, forKey: "outputDirectoryBookmark")
+                        self.outputDirectoryBookmark = bookmark
+                        self.outputDirectoryPath = url.path
+                    } catch {
+                        print("Failed to create bookmark for output directory: \(error)")
+                        self.outputDirectoryPath = url.path
+                    }
+                }
+            }
+        }
+        #endif
     }
     
     private func settingsPanel(singleFile: Bool) -> some View {
@@ -211,7 +274,11 @@ struct ContentView: View {
                 .disabled(true)
                 
                 Button(NSLocalizedString("select_source_file", comment: "Select source file button")) {
+                    #if os(iOS)
+                    showSinglePicker = true
+                    #else
                     selectSourceFile()
+                    #endif
                 }
                 .padding()
                 
@@ -221,7 +288,11 @@ struct ContentView: View {
                     .disabled(true)
                 
                 Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
+                    #if os(iOS)
+                    showDirectoryPicker = true
+                    #else
                     selectOutputDirectory()
+                    #endif
                 }
                 .padding()
                 
@@ -250,7 +321,11 @@ struct ContentView: View {
                     }
                     
                     Button(NSLocalizedString("select_multiple_source_files_button", comment: "Select multiple source files button")) {
+                        #if os(iOS)
+                        showMultiPicker = true
+                        #else
                         selectMultipleSourceFiles()
+                        #endif
                     }
                     .padding()
                     
@@ -260,7 +335,11 @@ struct ContentView: View {
                         .disabled(true)
                     
                     Button(NSLocalizedString("select_output_directory", comment: "Select output directory button")) {
+                        #if os(iOS)
+                        showDirectoryPicker = true
+                        #else
                         selectOutputDirectory()
+                        #endif
                     }
                     .padding()
                     
@@ -331,6 +410,66 @@ struct ContentView: View {
             }
         }
     }
+#endif
+
+#if os(iOS)
+    private func selectSourceFile() {
+        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
+    }
+#endif
+
+#if os(iOS)
+    private func selectMultipleSourceFiles() {
+        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
+    }
+#endif
+
+#if os(iOS)
+    private func selectOutputDirectory() {
+        // deprecated: replaced by SwiftUI sheet with DocumentPickerView
+    }
+#endif
+
+// MARK: - UIDocumentPicker helper
+#if os(iOS)
+
+/// SwiftUI wrapper for UIDocumentPickerViewController
+struct DocumentPickerView: UIViewControllerRepresentable {
+    var contentTypes: [UTType]
+    var allowsMultipleSelection: Bool = false
+    var asCopy: Bool = true
+    var completion: ([URL]) -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(completion: completion)
+    }
+
+    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+        let controller = UIDocumentPickerViewController(forOpeningContentTypes: contentTypes, asCopy: asCopy)
+        controller.delegate = context.coordinator
+        controller.allowsMultipleSelection = allowsMultipleSelection
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {}
+
+    class Coordinator: NSObject, UIDocumentPickerDelegate {
+        let completion: ([URL]) -> Void
+
+        init(completion: @escaping ([URL]) -> Void) {
+            self.completion = completion
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            completion(urls)
+        }
+
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            completion([])
+        }
+    }
+}
+
 #endif
     
     private func convertImage() {
