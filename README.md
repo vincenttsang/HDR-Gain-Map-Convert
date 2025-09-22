@@ -45,6 +45,7 @@
 - 對於 JPEG 輸出，實作上僅支援 8-bit；若選擇 10/16-bit 色深時，輸出格式應為 HEIF/PNG/TIFF。
 - 部分自定義 Core Image kernel（若存在於 `GainMapFilter`）可能需要在 build 時正確包含與連結，否則會回退到內建濾鏡的替代實作（專案內已有備註）。
 - 在大批次大量檔案處理時，建議適度調整併發數以避免記憶體或 I/O 瓶頸。
+- iOS/iPadOS 平台：為避免耗盡行動裝置的 SoC 資源（CPU/GPU/記憶體），在 UI 與執行邏輯中已對併發數做保守限制。預設與可選的執行緒數在 iOS 上會比 macOS 小，且實際 semaphore 同時啟動的工作數會根據裝置核心數上限為 4。若需要更改，可在 `ContentView.swift` 中調整相關設定。
 
 ## 範例工作流程
 

@@ -41,7 +41,11 @@ struct ContentView: View {
     @State private var outputHLG: Bool = false
     @State private var outputSDR: Bool = false
     @State private var outputGooglePhotos: Bool = false
+    #if os(iOS)
+    @State private var threadCount: Int = 3
+    #else
     @State private var threadCount: Int = 10
+    #endif
     @State private var imageQuality: Double = 0.95
     @State private var outputType: Int = 0
     
@@ -89,7 +93,12 @@ struct ContentView: View {
         }
     }
     
+    #if os(iOS)
+    // Mobile devices have far fewer high-performance cores; limit choices to safe ranges
+    let threadCounts = [1, 2, 3, 4]
+    #else
     let threadCounts = [2, 4, 6, 8, 10, 12, 14, 16]
+    #endif
     
     var body: some View {
         TabView(selection: $isSingleFileMode) {
@@ -179,6 +188,19 @@ struct ContentView: View {
                 await loadPhotoPickerItems(items: newItems)
             }
         }
+        #endif
+    }
+
+    // Platform aware maximum concurrent operations to avoid overwhelming mobile SoCs
+    private var maxConcurrentOperations: Int {
+        #if os(iOS)
+        // Use a conservative cap for iOS/iPadOS. Use min(threadCount, calculated) so user can pick lower.
+        // Prefer at most 4 or number of physical cores if lower.
+        let physicalCores = ProcessInfo.processInfo.activeProcessorCount
+        return max(1, min(threadCount, min(4, physicalCores)))
+        #else
+        // Keep existing macOS behavior allowing up to 16 concurrent operations
+        return max(1, min(threadCount, 16))
         #endif
     }
     
@@ -824,7 +846,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let currentBatch = batches[currentBatchIndex]
         let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
         let group = DispatchGroup()
-        let semaphore = DispatchSemaphore(value: min(threadCount, 16))
+    let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
         
         for path in currentBatch {
             group.enter()
@@ -902,7 +924,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let currentBatch = batches[currentBatchIndex]
         let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
         let group = DispatchGroup()
-        let semaphore = DispatchSemaphore(value: min(threadCount, 16))
+    let semaphore = DispatchSemaphore(value: maxConcurrentOperations)
         
         for path in currentBatch {
             group.enter()
@@ -963,7 +985,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
         let currentBatch = batches[currentBatchIndex]
         let queue = DispatchQueue(label: "org.image.converter.batch\(currentBatchIndex)", attributes: .concurrent)
         let group = DispatchGroup()
-        let semaphore = DispatchSemaphore(value: min(threadCount, 16)) // Limit to max 16 concurrent operations per batch
+    let semaphore = DispatchSemaphore(value: maxConcurrentOperations) // Platform-aware limit for concurrent operations
         
         print(String(format: NSLocalizedString("processing_batch", comment: "Processing batch log"), currentBatchIndex + 1, batches.count, currentBatch.count))
         
