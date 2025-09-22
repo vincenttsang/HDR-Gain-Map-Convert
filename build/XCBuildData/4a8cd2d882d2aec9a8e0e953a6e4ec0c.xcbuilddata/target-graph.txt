@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'HDR Gain Map Convert' in project 'HDR Gain Map Convert' (no dependencies)
