@@ -59,6 +59,36 @@
       "idiom" : "mac",
       "filename" : "icon-1024.png",
       "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "platform" : "ios",
+      "filename" : "icon-1024.png",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024",
+      "filename" : "icon-1024.png",
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024",
+      "filename" : "icon-1024.png",
     }
   ],
   "info" : {

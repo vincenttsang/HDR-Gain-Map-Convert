@@ -8,6 +8,9 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import UserNotifications
+#if os(iOS)
+import UIKit
+#endif
 
 struct ContentView: View {
     @State private var sourceFilePaths: [String] = []
@@ -280,6 +283,7 @@ struct ContentView: View {
         
     }
     
+#if os(macOS)
     private func selectSourceFile() {
         let dialog = NSOpenPanel()
         dialog.title = NSLocalizedString("select_source_file_dialog", comment: "Select source file dialog title")
@@ -293,7 +297,9 @@ struct ContentView: View {
             }
         }
     }
+#endif
     
+#if os(macOS)
     private func selectMultipleSourceFiles() {
         let dialog = NSOpenPanel()
         dialog.title = NSLocalizedString("select_multiple_source_files_dialog", comment: "Select multiple source files dialog title")
@@ -308,7 +314,9 @@ struct ContentView: View {
             }
         }
     }
+#endif
     
+#if os(macOS)
     private func selectOutputDirectory() {
         let dialog = NSOpenPanel()
         dialog.title = NSLocalizedString("select_output_directory_dialog", comment: "Select output directory dialog title")
@@ -323,6 +331,7 @@ struct ContentView: View {
             }
         }
     }
+#endif
     
     private func convertImage() {
         // TODO: 在这里实现单个文件的转换逻辑
@@ -459,10 +468,12 @@ struct ContentView: View {
     }
     
     // 在 Finder 中查看文件夹
+#if os(macOS)
     func openInFinder() {
         let url = URL(fileURLWithPath: outputDirectoryPath)
         NSWorkspace.shared.open(url)
     }
+#endif
 }
 
 // MARK: - Array Extension for Batch Processing
